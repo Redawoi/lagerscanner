@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import de.hotmann.edgar.wareneingang.Eingang.WareneingangPaletten;
+import de.hotmann.edgar.wareneingang.Lagerware.lagerorte;
 
 public class MainstartActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -83,11 +84,12 @@ public class MainstartActivity extends AppCompatActivity
         if (id == R.id.nav_palette) {
             Intent palettenintent = new Intent(this, WareneingangPaletten.class);
             this.startActivity(palettenintent);
-        } else if (id == R.id.nav_palette) {
+        } else if (id == R.id.nav_reihen) {
+            Intent reihenintent = new Intent(this, lagerorte.class);
+            this.startActivity(reihenintent);
+        } else if (id == R.id.nav_eingang) {
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_settings) {
 
         } else if (id == R.id.nav_share) {
 

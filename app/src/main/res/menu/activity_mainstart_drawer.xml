@@ -7,15 +7,15 @@
             android:icon="@drawable/ic_menu_camera"
             android:title="Paletten" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_reihen"
             android:icon="@drawable/ic_menu_gallery"
             android:title="Reihen" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_eingang"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Eingang" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_settings"
             android:icon="@drawable/ic_menu_manage"
             android:title="Einstellungen" />
     </group>
