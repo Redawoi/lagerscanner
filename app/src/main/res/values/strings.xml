@@ -67,7 +67,7 @@
     Um einen reibungslosen Ablauf zu garantieren, werden in regelmäßigen aber nicht gleichbleibenden Abständen Sicherungen erstellt.\nDiese können, zum Zeitpunkt der Wiederherstellung, bereits gelöschte Daten enthalten
 
     </string>
-    
+    <string name="title_activity_lagerorte">lagerorte</string>
 
 
 </resources>
