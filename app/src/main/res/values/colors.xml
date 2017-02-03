@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#c72b8b</color>
+    <color name="colorAccent">#5cc1ec</color>
+    <color name="colorPrimaryDark_1">#5cc1ec</color>
+    <color name="background_material_dark">#802323</color>
+    <color name="ListviewColour">#8c8c8c</color>
+    <color name="ListviewColour2">#ababab</color>
+    <color name="tabelle_überschrift">#000000</color>
+    <color name="tabelle_total_reihe">#ff0000</color>
+</resources>

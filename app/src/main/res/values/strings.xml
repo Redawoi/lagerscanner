@@ -1,0 +1,73 @@
+<resources>
+    <string name="app_name">Wareneingang</string>
+    <string name="scan">Scan</string>
+    <string name="action_settings">Einstellungen</string>
+
+    <string name="editText_hint_season">S.</string>
+    <string name="editText_hint_style">Style</string>
+    <string name="editText_hint_quality">Qual.</string>
+    <string name="editText_hint_colour">Fb.</string>
+    <string name="editText_hint_size">Gr.</string>
+    <string name="editText_hint_quantity">Anzahl</string>
+    <string name="editText_hint_product">Produkt</string>
+    <string name="button_add_product">Eintragen</string>
+
+    <string name="editText_errorMessage">Das Feld darf nicht leer sein.</string>
+    <string name="cab_delete">Einträge löschen</string>
+    <string name="cab_change">Eintrag ändern</string>
+    <string name="cab_checked_string">ausgewählt</string>
+
+    <string name="dialog_title">Listeneintrag ändern</string>
+    <string name="dialog_title_quantity">Anzahl:</string>
+    <string name="dialog_title_quality">Qualität:</string>
+    <string name="dialog_button_positive">Ändern</string>
+    <string name="dialog_button_negative">Abbrechen</string>
+    <string name="dialog_title_style">Style</string>
+    <string name="dialog_title_season">Season</string>
+    <string name="dialog_title_colour">Farbe</string>
+    <string name="dialog_title_size">Größe</string>
+    <string name="nextpallet">Nächste Palette</string>
+    <string name="prevpallet">Vorige Palette</string>
+    <string name="dialog_title_palette">Palette</string>
+    <string name="action_exit">Beenden</string>
+    <string name="action_daten">Tabellarische Ansicht</string>
+    <string name="title_activity_table_view">Tabellen Ansicht</string>
+    <string name="button_search_product">~</string>
+    <string name="rotate">Drehen</string>
+    <string name="title_activity_tabellenansichten">Tabellenansichten</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="dialog_title_secondarychoice">2. Wahl</string>
+    <string name="clear">Leeren</string>
+    <string name="dialog_title_zählen">Zählen</string>
+    <string name="orderno">Ordernummer</string>
+    <string name="season">Season</string>
+    <string name="style">Style</string>
+    <string name="quality">Qualität</string>
+    <string name="colour">Farbe</string>
+    <string name="size">Größe</string>
+    <string name="firstchoice">I.Wahl</string>
+    <string name="secchoice">II.Wahl</string>
+    <string name="total">Summe</string>
+    <string name="title_activity_main2">Main2Activity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="sendto">Senden an...</string>
+    <string name="reload">↻</string>
+    <string name="wievielkartons">00/24</string>
+    <string name="mitzählen.ja">Zählen</string>
+    <string name="mitzählen.nein">Warten</string>
+    <string name="erstewahl">1. Wahl</string>
+    <string name="zweitewahl">2. Wahl</string>
+    <string name="title_activity_mainstart">Edgars App</string>
+    <string name="rechte1">Durch das Benutzen dieser Anwendung treten Sie alle Eigentumsrechte dieser damit erfassten Daten an den Ersteller dieser Anwendung ab.\n\n
+        Ihnen können gegebenfalls Rechte zur Mitbenutzung eingeräumt werden, auch wenn dies nicht zwingend der Fall ist.\n\n
+        Klären Sie die Benutzung daher vorher mit Ihren Vorgesetzten ab, um sich nachträglichen Ärger zu ersparen.\n\n
+    Daten werden auf nicht betriebszugehörigen Servern zwischen- und auch endverarbeitet.\n\n
+    Um einen reibungslosen Ablauf zu garantieren, werden in regelmäßigen aber nicht gleichbleibenden Abständen Sicherungen erstellt.\nDiese können, zum Zeitpunkt der Wiederherstellung, bereits gelöschte Daten enthalten
+
+    </string>
+    
+
+
+</resources>

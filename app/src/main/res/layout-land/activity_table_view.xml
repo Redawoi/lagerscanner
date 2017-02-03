@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="de.hotmann.edgar.wareneingang.Eingang.Auswertung.TableViewActivity">
+
+
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        tools:context=".Eingang.Auswertung.TableViewActivity"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="true"
+            android:background="@color/ListviewColour2">
+
+            <Spinner
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:id="@+id/spinnerseason"
+                android:layout_weight="3"
+                android:spinnerMode="dialog" />
+            <Spinner
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:id="@+id/spinnerstyle"
+                android:layout_weight="5"
+                android:spinnerMode="dialog" />
+            <Spinner
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:id="@+id/spinnerquality"
+                android:layout_weight="5"
+                android:spinnerMode="dialog" />
+            <Spinner
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:id="@+id/spinnercolour"
+                android:layout_weight="4"
+                android:spinnerMode="dialog" />
+            <Button
+                android:layout_width="54dp"
+                android:layout_height="wrap_content"
+                android:text="@string/reload"
+                android:layout_weight="0.5"
+                android:id="@+id/button_search_product"
+                android:textSize="20sp" />
+        </LinearLayout>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        tools:context=".Eingang.Auswertung.TableViewActivity"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@color/ListviewColour">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_weight="2"
+            android:text="Senden zu..."
+            android:id="@+id/sendbutton"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:hint="@string/orderno"
+            android:inputType="number"
+            android:layout_toRightOf="@id/sendbutton"
+            android:id="@+id/ordernotext"/>
+    </LinearLayout>
+
+        <!-- <GridView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/listview_zählmengen"
+            android:numColumns="13"
+
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/activity_margin_bottom"
+            android:layout_weight="1"
+            /> -->
+        <TableLayout
+            android:id="@+id/tabelle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TableRow>
+                <TextView android:text="32"
+                    android:textSize="@dimen/colsize"
+                    android:textColor="@color/tabelle_überschrift"
+                    android:layout_weight="1"
+                    android:gravity="end"/>
+                <TextView android:text="34"
+                    android:textSize="@dimen/colsize"
+                    android:textColor="@color/tabelle_überschrift"
+                    android:layout_weight="1"
+                    android:gravity="end"/>
+                <TextView android:text="36"
+                    android:textSize="@dimen/colsize"
+                    android:textColor="@color/tabelle_überschrift"
+                    android:layout_weight="1"
+                    android:gravity="end"/>
+                <TextView android:text="38"
+                    android:textSize="@dimen/colsize"
+                    android:textColor="@color/tabelle_überschrift"
+                    android:layout_weight="1"
+                    android:gravity="end"/>
+                <TextView android:text="40"
+                    android:textSize="@dimen/colsize"
+                    android:textColor="@color/tabelle_überschrift"
+                    android:layout_weight="1"
+                    android:gravity="end"/>
+                <TextView android:text="42"
+                    android:textSize="@dimen/colsize"
+                    android:textColor="@color/tabelle_überschrift"
+                    android:layout_weight="1"
+                    android:gravity="end"/>
+                <TextView android:text="44"
+                    android:textSize="@dimen/colsize"
+                    android:textColor="@color/tabelle_überschrift"
+                    android:layout_weight="1"
+                    android:gravity="end"/>
+                <TextView android:text="46"
+                    android:textSize="@dimen/colsize"
+                    android:textColor="@color/tabelle_überschrift"
+                    android:layout_weight="1"
+                    android:gravity="end"/>
+                <TextView android:text="48"
+                    android:textSize="@dimen/colsize"
+                    android:textColor="@color/tabelle_überschrift"
+                    android:layout_weight="1"
+                    android:gravity="end"/>
+                <TextView android:text="50"
+                    android:textSize="@dimen/colsize"
+                    android:textColor="@color/tabelle_überschrift"
+                    android:layout_weight="1"
+                    android:gravity="end"/>
+                <TextView android:text="52"
+                    android:textSize="@dimen/colsize"
+                    android:textColor="@color/tabelle_überschrift"
+                    android:layout_weight="1"
+                    android:gravity="end"/>
+                <TextView android:text="54"
+                    android:textSize="@dimen/colsize"
+                    android:textColor="@color/tabelle_überschrift"
+                    android:layout_weight="1"
+                    android:gravity="end"/>
+                <TextView android:text="56"
+                    android:textSize="@dimen/colsize"
+                    android:textColor="@color/tabelle_überschrift"
+                    android:layout_weight="1"
+                    android:gravity="end"/>
+                <TextView android:text="Σ"
+                    android:textSize="@dimen/colsize"
+                    android:textColor="@color/tabelle_überschrift"
+                    android:layout_weight="1"
+                    android:gravity="end"/>
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/size32" />
+                <TextView
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/size34"/>
+                <TextView
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/size36"/>
+                <TextView
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/size38"/>
+                <TextView
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/size40"/>
+                <TextView
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/size42"/>
+                <TextView
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/size44"/>
+                <TextView
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/size46"/>
+                <TextView
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/size48"/>
+                <TextView
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/size50"/>
+                <TextView
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/size52"/>
+                <TextView
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/size54"/>
+                <TextView
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/size56"/>
+                <TextView
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/total"/>
+            </TableRow>
+            <TableRow>
+                <TextView android:text="00"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/secsize32" />
+                <TextView android:text="00"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/secsize34"/>
+                <TextView android:text="00"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/secsize36"/>
+                <TextView android:text="00"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/secsize38"/>
+                <TextView android:text="00"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/secsize40"/>
+                <TextView android:text="00"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/secsize42"/>
+                <TextView android:text="00"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/secsize44"/>
+                <TextView android:text="00"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/secsize46"/>
+                <TextView android:text="00"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/secsize48"/>
+                <TextView android:text="00"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/secsize50"/>
+                <TextView android:text="00"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/secsize52"/>
+                <TextView android:text="00"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/secsize54"/>
+                <TextView android:text="00"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/secsize56"/>
+                <TextView android:text="00"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/sectotal"/>
+            </TableRow>
+            <TableRow
+                android:layout_height="20dp">
+                <TextView android:text=""
+                    android:layout_weight="1"
+                    android:gravity="end" />
+            </TableRow>
+            <TableRow>
+                <TextView android:text="00"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/totalofsize32"
+                    android:textColor="@color/tabelle_total_reihe" />
+                <TextView android:text="00"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/totalofsize34"
+                    android:textColor="@color/tabelle_total_reihe" />
+                <TextView android:text="00"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/totalofsize36"
+                    android:textColor="@color/tabelle_total_reihe" />
+                <TextView android:text="00"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/totalofsize38"
+                    android:textColor="@color/tabelle_total_reihe" />
+                <TextView android:text="00"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/totalofsize40"
+                    android:textColor="@color/tabelle_total_reihe" />
+                <TextView android:text="00"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/totalofsize42"
+                    android:textColor="@color/tabelle_total_reihe" />
+                <TextView android:text="00"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/totalofsize44"
+                    android:textColor="@color/tabelle_total_reihe" />
+                <TextView android:text="00"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/totalofsize46"
+                    android:textColor="@color/tabelle_total_reihe" />
+                <TextView android:text="00"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/totalofsize48"
+                    android:textColor="@color/tabelle_total_reihe" />
+                <TextView android:text="00"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/totalofsize50"
+                    android:textColor="@color/tabelle_total_reihe" />
+                <TextView android:text="00"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/totalofsize52"
+                    android:textColor="@color/tabelle_total_reihe" />
+                <TextView android:text="00"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/totalofsize54"
+                    android:textColor="@color/tabelle_total_reihe" />
+                <TextView android:text="00"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/totalofsize56"
+                    android:textColor="@color/tabelle_total_reihe" />
+                <TextView android:text="00"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/colsize"
+                    android:gravity="end"
+                    android:id="@+id/totaloftotal"
+                    android:textColor="@color/tabelle_total_reihe" />
+            </TableRow>
+
+        </TableLayout>
+
+
+    </LinearLayout>
+</RelativeLayout>

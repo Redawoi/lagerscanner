@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="de.hotmann.edgar.wareneingang.Eingang.WareneingangPaletten">
+    <LinearLayout
+        android:id="@+id/header"
+
+        android:background="@color/ListviewColour"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <EditText
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:hint="@string/editText_hint_season"
+            android:inputType="number"
+            android:id="@+id/editText_season"
+            android:layout_weight="1"
+            android:layout_width="wrap_content" />
+        <EditText
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:hint="@string/editText_hint_style"
+            android:inputType="number"
+            android:id="@+id/editText_style"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"/>
+        <EditText
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:hint="@string/editText_hint_quality"
+            android:inputType="number"
+            android:id="@+id/editText_quality"
+            android:layout_weight="1"
+            android:layout_width="wrap_content" />
+        <EditText
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:hint="@string/editText_hint_colour"
+            android:inputType="number"
+            android:id="@+id/editText_colour"
+            android:layout_weight="1"
+            android:layout_width="wrap_content" />
+        <EditText
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:hint="@string/editText_hint_size"
+            android:inputType="number"
+            android:id="@+id/editText_size"
+            android:layout_weight="1"
+            android:layout_width="wrap_content" />
+        <EditText
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:hint="@string/editText_hint_quantity"
+            android:inputType="number"
+            android:id="@+id/editText_quantity"
+            android:layout_weight="1"
+            android:layout_width="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ActionButtonsRight"
+        android:layout_below="@id/header"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:background="@color/ListviewColour">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal" >
+            <Button android:id="@+id/clear_button"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_centerHorizontal="true"
+                android:text="@string/clear"
+                android:onClick="clearNow" />
+            <Button android:id="@+id/scan_button"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_below="@+id/clear_button"
+                android:text="@string/scan"
+                android:onClick="scanNow" />
+            <Button
+                android:id="@+id/button_add_product"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:text="@string/button_add_product"
+                android:layout_below="@id/scan_button" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom">
+            <Button
+            android:text="@string/nextpallet"
+            android:id="@+id/nextpallet"
+            android:onClick="nextpallet"
+            android:layout_below="@id/button_add_product"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" /></LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/textviews"
+        android:background="@color/ListviewColour"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_below="@+id/header"
+        android:gravity="center_horizontal|bottom">
+        <ToggleButton
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="New ToggleButton"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/secondarychoicecheckbox"
+            android:textOff="@string/erstewahl"
+            android:textOn="@string/zweitewahl" />
+        <ToggleButton
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text=""
+            android:layout_toRightOf="@id/secondarychoicecheckbox"
+            android:id="@+id/countcheckbox"
+            android:textOn="@string/mitzählen.ja"
+            android:textOff="@string/mitzählen.nein"
+            android:checked="true"/>
+        <TextView
+            android:id="@+id/palettefuelle"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/wievielkartons"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:inputType="number"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText_palette"
+            android:layout_gravity="center_vertical"
+            android:text="Nummer"
+            android:textAlignment="center" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/prevpallet"
+            android:id="@+id/prevpallet" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_toRightOf="@id/textviews"
+        android:layout_toLeftOf="@+id/ActionButtonsRight"
+        android:layout_below="@id/header"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:transcriptMode="alwaysScroll"
+            android:stackFromBottom="true"
+            android:id="@+id/listview_eingaenge"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+
+
+
+
+</RelativeLayout>
