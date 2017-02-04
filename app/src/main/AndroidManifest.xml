@@ -15,7 +15,7 @@
         <activity
             android:name=".Eingang.WareneingangPaletten"
             android:configChanges="screenSize"
-            android:parentActivityName=".MainstartActivity"></activity>
+            android:parentActivityName=".MainstartActivity" />
         <activity
             android:name=".Eingang.Auswertung.TableViewActivity"
             android:label="@string/title_activity_table_view"
@@ -48,8 +48,8 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".Lagerware.lagerorte"
-            android:label="@string/title_activity_lagerorte"
+            android:name=".Lagerorte.LocationsActivity"
+            android:label="@string/title_activity_locations"
             android:parentActivityName=".MainstartActivity"
             android:theme="@style/NoActionBar">
             <meta-data

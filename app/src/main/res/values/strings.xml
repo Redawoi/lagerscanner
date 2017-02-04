@@ -26,8 +26,8 @@
     <string name="dialog_title_season">Season</string>
     <string name="dialog_title_colour">Farbe</string>
     <string name="dialog_title_size">Größe</string>
-    <string name="nextpallet">Nächste Palette</string>
-    <string name="prevpallet">Vorige Palette</string>
+    <string name="nextpallet">Nächste\nPalette</string>
+    <string name="prevpallet">Vorige\nPalette</string>
     <string name="dialog_title_palette">Palette</string>
     <string name="action_exit">Beenden</string>
     <string name="action_daten">Tabellarische Ansicht</string>
@@ -70,6 +70,7 @@
     <string name="title_activity_lagerorte">Lagerorte/Reihen</string>
     <string name="hotmann_firma">Hotmann Enterprises</string>
     <string name="hotmann_firma_slogan">Entwicklung mit Köpfchen *.*</string>
+    <string name="title_activity_locations">LocationsActivity</string>
 
 
 </resources>

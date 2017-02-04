@@ -11,4 +11,5 @@
     <dimen name="nav_header_height">80dp</dimen>
     <dimen name="colsize">20sp</dimen>
     <dimen name="nav_header_padding_left">10dp</dimen>
+    <dimen name="buttons_oben_paletten">2dp</dimen>
 </resources>
