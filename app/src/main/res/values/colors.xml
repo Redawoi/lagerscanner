@@ -8,4 +8,6 @@
     <color name="ListviewColour2">#ababab</color>
     <color name="tabelle_überschrift">#000000</color>
     <color name="tabelle_total_reihe">#ff0000</color>
+    <color name="spinnerschrift">#c4c4c4</color>
+    <color name="my_spinner_text_color">#FFFFFF</color>
 </resources>

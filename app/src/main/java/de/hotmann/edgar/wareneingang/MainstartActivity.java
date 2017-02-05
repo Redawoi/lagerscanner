@@ -70,6 +70,8 @@ public class MainstartActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        } else if ( id == R.id.action_menu_exit) {
+            this.finishAffinity();
         }
 
         return super.onOptionsItemSelected(item);
@@ -85,6 +87,8 @@ public class MainstartActivity extends AppCompatActivity
             Intent palettenintent = new Intent(this, WareneingangPaletten.class);
             this.startActivity(palettenintent);
         } else if (id == R.id.nav_reihen) {
+            Intent reihenintent = new Intent(this, LocationsActivity.class);
+            this.startActivity(reihenintent);
 
         } else if (id == R.id.nav_eingang) {
 

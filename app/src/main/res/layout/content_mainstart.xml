@@ -11,7 +11,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="de.hotmann.edgar.wareneingang.MainstartActivity"
-    tools:showIn="@layout/app_bar_mainstart">
+    tools:showIn="@layout/app_bar_mainstart"
+    android:background="@color/ListviewColour">
 
     <TextView
         android:text="@string/rechte1"
@@ -23,6 +24,7 @@
         android:textStyle="normal|bold"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textColor="@color/colorAccent"/>
 
 </RelativeLayout>

@@ -59,7 +59,7 @@
     <string name="mitzählen.nein">Warten</string>
     <string name="erstewahl">1. Wahl</string>
     <string name="zweitewahl">2. Wahl</string>
-    <string name="title_activity_mainstart">Edgars App</string>
+    <string name="title_activity_mainstart">Lagerhaltung</string>
     <string name="rechte1">Durch das Benutzen dieser Anwendung treten Sie alle Eigentumsrechte dieser damit erfassten Daten an den Ersteller dieser Anwendung ab.\n\n
         Ihnen können gegebenfalls Rechte zur Mitbenutzung eingeräumt werden, auch wenn dies nicht zwingend der Fall ist.\n\n
         Klären Sie die Benutzung daher vorher mit Ihren Vorgesetzten ab, um sich nachträglichen Ärger zu ersparen.\n\n
@@ -70,7 +70,11 @@
     <string name="title_activity_lagerorte">Lagerorte/Reihen</string>
     <string name="hotmann_firma">Hotmann Enterprises</string>
     <string name="hotmann_firma_slogan">Entwicklung mit Köpfchen *.*</string>
-    <string name="title_activity_locations">LocationsActivity</string>
+    <string name="title_activity_locations">Lagerware</string>
+    <string name="reihenorte">Reihen</string>
+    <string name="ebenenorte">Ebene</string>
+    <string name="halle">Halle</string>
+    <string name="length">Länge</string>
 
 
 </resources>

@@ -10,7 +10,145 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="de.hotmann.edgar.wareneingang.Lagerorte.LocationsActivity"
-    tools:showIn="@layout/app_bar_locations">
+    tools:context="de.hotmann.edgar.wareneingang.LocationsActivity"
+    tools:showIn="@layout/app_bar_locations"
+    android:background="@color/ListviewColour">
 
+    <LinearLayout
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="30dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/halle"
+                    android:textSize="20dp"
+                    android:textColor="@color/colorAccent"
+                    android:layout_marginLeft="80dp" />
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spinner_halle"
+                    android:textColor="@color/colorAccent"
+                    android:backgroundTint="@color/colorAccent" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ebenenorte"
+                    android:textSize="20dp"
+                    android:textColor="@color/colorAccent"
+                    android:layout_marginLeft="80dp"/>
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spinner_ebene"
+                    android:textColor="@color/colorAccent"
+                    android:backgroundTint="@color/colorAccent"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/reihenorte"
+                    android:textSize="20dp"
+                    android:textColor="@color/colorAccent"
+                    android:layout_marginLeft="80dp"/>
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spinner_reihe"
+                    android:textColor="@color/colorAccent"
+                    android:backgroundTint="@color/colorAccent"/>
+            </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/season"
+                android:textSize="20dp"
+                android:textColor="@color/colorAccent"
+                android:layout_marginLeft="80dp"/>
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinnerseasonorte"
+                android:textColor="@color/colorAccent"
+                android:backgroundTint="@color/colorAccent" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/style"
+                android:textSize="20dp"
+                android:textColor="@color/colorAccent"
+                android:layout_marginLeft="80dp" />
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinnerstyleorte"
+                android:textColor="@color/colorAccent"
+                android:backgroundTint="@color/colorAccent"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/quality"
+                android:textSize="20dp"
+                android:textColor="@color/colorAccent"
+                android:layout_marginLeft="80dp" />
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinnerqualityorte"
+                android:textColor="@color/colorAccent"
+                android:backgroundTint="@color/colorAccent"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/colour"
+                android:textSize="20dp"
+                android:textColor="@color/colorAccent"
+                android:layout_marginLeft="80dp" />
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinnercolourorte"
+                android:textColor="@color/colorAccent"
+                android:backgroundTint="@color/colorAccent"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/length"
+                android:textSize="20dp"
+                android:textColor="@color/colorAccent"
+                android:layout_marginLeft="80dp" />
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinnerlengthorte"
+                android:textColor="@color/colorAccent"
+                android:backgroundTint="@color/colorAccent"/>
+        </LinearLayout>
+
+    </LinearLayout>
 </RelativeLayout>

@@ -48,7 +48,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".Lagerorte.LocationsActivity"
+            android:name=".LocationsActivity"
             android:label="@string/title_activity_locations"
             android:parentActivityName=".MainstartActivity"
             android:theme="@style/NoActionBar">
