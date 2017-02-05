@@ -8,14 +8,26 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
+import android.widget.Toast;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
+import de.hotmann.edgar.wareneingang.Barcode.BarcodeDataSource;
 import de.hotmann.edgar.wareneingang.Eingang.WareneingangPaletten;
+
+import static de.hotmann.edgar.wareneingang.Eingang.WareneingangPaletten.LOG_TAG;
 
 
 public class MainstartActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    public static final String LOG_TAG = WareneingangPaletten.class.getSimpleName();
+    private BarcodeDataSource dataSourcebarcode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,4 +116,11 @@ public class MainstartActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+
+
+
+
+
 }

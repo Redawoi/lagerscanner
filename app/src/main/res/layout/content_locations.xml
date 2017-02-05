@@ -89,12 +89,15 @@
                 android:textSize="20dp"
                 android:textColor="@color/colorAccent"
                 android:layout_marginLeft="80dp"/>
-            <Spinner
+            <EditText
+                android:id="@+id/editTextOrtSeason"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/spinnerseasonorte"
+                android:hint="Season"
+                android:layout_gravity="end"
+                android:textAlignment="textEnd"
                 android:textColor="@color/colorAccent"
-                android:backgroundTint="@color/colorAccent" />
+                android:textColorHint="@color/zxing_custom_possible_result_points"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -102,13 +105,15 @@
                 android:textSize="20dp"
                 android:textColor="@color/colorAccent"
                 android:layout_marginLeft="80dp" />
-            <Spinner
+            <EditText
+                android:id="@+id/editTextOrtStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/spinnerstyleorte"
+                android:hint="Style"
+                android:layout_gravity="end"
+                android:textAlignment="textEnd"
                 android:textColor="@color/colorAccent"
-                android:backgroundTint="@color/colorAccent"
-                />
+                android:textColorHint="@color/zxing_custom_possible_result_points"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -116,12 +121,15 @@
                 android:textSize="20dp"
                 android:textColor="@color/colorAccent"
                 android:layout_marginLeft="80dp" />
-            <Spinner
+            <EditText
+                android:id="@+id/editTextOrtQualität"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/spinnerqualityorte"
+                android:hint="Qualität"
+                android:layout_gravity="end"
+                android:textAlignment="textEnd"
                 android:textColor="@color/colorAccent"
-                android:backgroundTint="@color/colorAccent"/>
+                android:textColorHint="@color/zxing_custom_possible_result_points"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -129,25 +137,31 @@
                 android:textSize="20dp"
                 android:textColor="@color/colorAccent"
                 android:layout_marginLeft="80dp" />
-            <Spinner
+            <EditText
+                android:id="@+id/editTextOrtColour"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/spinnercolourorte"
+                android:hint="Farbe"
+                android:layout_gravity="end"
+                android:textAlignment="textEnd"
                 android:textColor="@color/colorAccent"
-                android:backgroundTint="@color/colorAccent"/>
+                android:textColorHint="@color/zxing_custom_possible_result_points"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/length"
+                android:text="@string/size"
                 android:textSize="20dp"
                 android:textColor="@color/colorAccent"
                 android:layout_marginLeft="80dp" />
-            <Spinner
+            <EditText
+                android:id="@+id/editTextOrtSize"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/spinnerlengthorte"
+                android:hint="Größe"
+                android:layout_gravity="end"
+                android:textAlignment="textEnd"
                 android:textColor="@color/colorAccent"
-                android:backgroundTint="@color/colorAccent"/>
+                android:textColorHint="@color/zxing_custom_possible_result_points"/>
         </LinearLayout>
 
     </LinearLayout>
