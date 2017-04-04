@@ -17,6 +17,7 @@ public class BarcodeDataSource {
 
     private SQLiteDatabase database;
     private BarcodeDbHelper dbHelper;
+
     private String[] columns = {
             BarcodeDbHelper.COLUMN_ID,
             BarcodeDbHelper.COLUMN_SEASON,
@@ -29,7 +30,9 @@ public class BarcodeDataSource {
             BarcodeDbHelper.COLUMN_ITEMNAME,
     };
 
-    public Barcode createBarcode(String season, String style, String quality, String lgd, String colour, String size, String eanno, String itemname) {
+
+
+    public Barcode createBarcode(String season, String style, String quality, String lgd, String colour, String size, String eanno, String itemname, String table) {
         ContentValues values = new ContentValues();
         values.put(BarcodeDbHelper.COLUMN_SEASON, season);
         values.put(BarcodeDbHelper.COLUMN_STYLE, style);
@@ -41,9 +44,9 @@ public class BarcodeDataSource {
         values.put(BarcodeDbHelper.COLUMN_ITEMNAME, itemname);
 
 
-        long insertId = database.insert(BarcodeDbHelper.WARENEINGANG_TABLENAME, null, values);
+        long insertId = database.insert(table, null, values);
 
-        Cursor cursor = database.query(BarcodeDbHelper.WARENEINGANG_TABLENAME,
+        Cursor cursor = database.query(table,
                 columns, BarcodeDbHelper.COLUMN_ID + "=" + insertId,
                 null, null, null, null);
         cursor.moveToFirst();
@@ -53,7 +56,7 @@ public class BarcodeDataSource {
         return barcode;
     }
 
-    public Barcode updateBarcode(long id, String newSeason, String newStyle, String newQuality, String newLgd, String newColour, String newSize, String newEanno, String newItemname) {
+    public Barcode updateBarcode(long id, String newSeason, String newStyle, String newQuality, String newLgd, String newColour, String newSize, String newEanno, String newItemname, String table) {
         ContentValues values = new ContentValues();
         values.put(BarcodeDbHelper.COLUMN_SEASON, newSeason);
         values.put(BarcodeDbHelper.COLUMN_STYLE, newStyle);
@@ -64,12 +67,12 @@ public class BarcodeDataSource {
         values.put(BarcodeDbHelper.COLUMN_EANNO, newEanno);
         values.put(BarcodeDbHelper.COLUMN_ITEMNAME, newItemname);
 
-        database.update(BarcodeDbHelper.WARENEINGANG_TABLENAME,
+        database.update(table,
                 values,
                 BarcodeDbHelper.COLUMN_ID + "=" + id,
                 null);
 
-        Cursor cursor = database.query(BarcodeDbHelper.WARENEINGANG_TABLENAME,
+        Cursor cursor = database.query(table,
                 columns, BarcodeDbHelper.COLUMN_ID +"=" +id,
                 null, null, null, null);
 
@@ -107,12 +110,12 @@ public class BarcodeDataSource {
         return barcode;
     }
 
-    public String[] getOneBarcode(String eannoparam) {
+    public String[] getOneBarcode(String eannoparam, String table) {
         Log.d(LOG_TAG, "Kommt raus? Main Activity3");
 
 
             String[] result = {null,null,null,null,null,null};
-            Cursor cursor = database.query(BarcodeDbHelper.WARENEINGANG_TABLENAME, columns, BarcodeDbHelper.COLUMN_EANNO + "=" + eannoparam, null, null, null, null, null);
+            Cursor cursor = database.query(table, columns, BarcodeDbHelper.COLUMN_EANNO + "=" + eannoparam, null, null, null, null, null);
                     cursor.moveToFirst();
                     Barcode barcode;
                     barcode = cursorToBarcode(cursor);
@@ -129,9 +132,9 @@ public class BarcodeDataSource {
         return  result;
     }
 
-    public boolean CheckIsBarcodeInDBorNot(String fieldValue) {
+    public boolean CheckIsBarcodeInDBorNot(String fieldValue, String table) {
 
-        String Query = "Select * from " + BarcodeDbHelper.WARENEINGANG_TABLENAME + " where " + BarcodeDbHelper.COLUMN_EANNO + " = " + fieldValue;
+        String Query = "Select * from " + table + " where " + table + " = " + fieldValue;
         Cursor cursor = database.rawQuery(Query, null);
         if(cursor.getCount() <= 0){
             cursor.close();
@@ -158,10 +161,10 @@ public class BarcodeDataSource {
         Log.d(LOG_TAG, "Datenbank mit Hilfe des DbHelpers geschlossen.");
     }
 
-    public void deleteBarcode(Barcode barcode) {
+    public void deleteBarcode(Barcode barcode, String table) {
         long id = barcode.getId();
 
-        database.delete(BarcodeDbHelper.WARENEINGANG_TABLENAME,
+        database.delete(table,
                 BarcodeDbHelper.COLUMN_ID + "=" +id,
                 null);
         Log.d(LOG_TAG, "Eintrag gelöscht! ID: " + id + " Inhalt: " + barcode.toString());
