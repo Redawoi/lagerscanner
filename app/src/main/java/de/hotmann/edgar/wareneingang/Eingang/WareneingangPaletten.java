@@ -124,6 +124,7 @@ public class WareneingangPaletten extends AppCompatActivity {
         );
         AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
+        dataSource.close();
     }
     @Override
     protected void onResume() {
