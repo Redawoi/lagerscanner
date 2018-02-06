@@ -132,9 +132,10 @@ public class BarcodeDataSource {
         return  result;
     }
 
+
     public boolean CheckIsBarcodeInDBorNot(String fieldValue, String table) {
 
-        String Query = "Select * from " + table + " where " + table + " = " + fieldValue;
+        String Query = "Select * from " + table +  " where eanno = " + fieldValue;
         Cursor cursor = database.rawQuery(Query, null);
         if(cursor.getCount() <= 0){
             cursor.close();
