@@ -271,6 +271,20 @@ public class WareneingangPaletten extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)){
+            IntentIntegrator integrator = new IntentIntegrator(this);
+            integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
+            integrator.setPrompt("Fahre über einen Barcode\n" +
+                    "Lautstärke (+)(–) für Taschenlampe an/aus");
+            integrator.setOrientationLocked(true);
+            integrator.initiateScan();
+        }
+        return true;
+    }
+
+
     public void initializeWidgets() {
         nextpalette = (Button) findViewById(R.id.nextpallet);
         prevpalette = (Button) findViewById(R.id.prevpallet);
@@ -512,12 +526,13 @@ public class WareneingangPaletten extends AppCompatActivity {
         if (scanningResult.getContents() != null) {
             // Ergebnis erhalten
             String scanContent = scanningResult.getContents();
+            String lastdigit = scanContent.substring(scanContent.length()-1);
+            String tableofdb = "codelist" + lastdigit;
             dataSourcebarcode.open();
-            if(dataSourcebarcode.CheckIsBarcodeInDBorNot(scanContent, "codelist")){
+            if(dataSourcebarcode.CheckIsBarcodeInDBorNot(scanContent, tableofdb)){
                 // Ergebnis ist in Datenbank
                 // Ausgabe des Ergebnisses auf TextViews
-                String proofdigit = "codelist";
-                String[] Params = dataSourcebarcode.getOneBarcode(scanContent, proofdigit);
+                String[] Params = dataSourcebarcode.getOneBarcode(scanContent, tableofdb);
                 editTextSeason.setText(Params[0]);
                 editTextStyle.setText(Params[1]);
                 editTextQuality.setText(Params[2]);
