@@ -83,6 +83,7 @@
     <string name="length">Länge</string>
     <string name="editText_hint_lgd">012</string>
     <string name="dialog_title_lgd">Längencode</string>
+    <string name="DBFast">Checking for Speed\n\n</string>
 
 
 </resources>

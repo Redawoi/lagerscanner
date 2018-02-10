@@ -91,6 +91,12 @@ public class BarcodeDataSource {
         return true;
     }
 
+    public void DBOptimieren() {
+        String Query = "CREATE TABLE codelist0 ( _id INTEGER PRIMARY KEY AUTOINCREMENT, season TEXT NOT NULL, style TEXT NOT NULL, quality TEXT NOT NULL, lgd TEXT NOT NULL, colour TEXT NOT NULL, size TEXT NOT NULL, eanno TEXT NOT NULL, itemname TEXT NOT NULL, productgroup TEXT )";
+        Cursor cursor = database.rawQuery(Query,null);
+                cursor.close();
+    }
+
     public BarcodeDataSource(Context context) {
         Log.d(LOG_TAG, "Unsere DataSource erzeugt jetzt den dbHelper.");
         dbHelper = new BarcodeDbHelper(context);

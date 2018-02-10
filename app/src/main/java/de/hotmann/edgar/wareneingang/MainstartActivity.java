@@ -1,5 +1,6 @@
 package de.hotmann.edgar.wareneingang;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -10,6 +11,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import de.hotmann.edgar.wareneingang.Barcode.BarcodeDataSource;
 import de.hotmann.edgar.wareneingang.Eingang.WareneingangPaletten;
 import de.hotmann.edgar.wareneingang.Lagerorte.LocationsActivity;
 
@@ -17,12 +22,40 @@ import de.hotmann.edgar.wareneingang.Lagerorte.LocationsActivity;
 public class MainstartActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private BarcodeDataSource dataSource;
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainstart);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        final Button optimieren = (Button) findViewById(R.id.dboptimierung);
+        final TextView textview3 = (TextView) findViewById(R.id.textView3);
+        textview3.setText("Die Datenbank ist langsam.");
+        optimieren.setVisibility(View.VISIBLE);
+        if(CheckforFastDB()) {
+            optimieren.setVisibility(View.INVISIBLE);
+            textview3.setText("Die Datenbank ist optimiert.");
+
+        }
+
+
+
+
+
+        optimieren.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                final TextView textview3 = (TextView) findViewById(R.id.textView3);
+                doUpdate();
+                textview3.setText("Fertig");
+            }
+        });
+
+
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -35,6 +68,7 @@ public class MainstartActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         assert navigationView != null;
         navigationView.setNavigationItemSelectedListener(this);
+
     }
 
     @Override
@@ -94,7 +128,6 @@ public class MainstartActivity extends AppCompatActivity
         } else if (id == R.id.nav_send) {
 
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer != null) {
             drawer.closeDrawer(GravityCompat.START);
@@ -105,7 +138,23 @@ public class MainstartActivity extends AppCompatActivity
 
 
 
+    public boolean CheckforFastDB () {
+        dataSource = new BarcodeDataSource(this);
+        dataSource.open();
+        if(dataSource.CheckforFastDB()) {
+            dataSource.close();
+            return true;
+        }else{
+            dataSource.close();
+            return false;
+        }
+    }
 
-
+    public void doUpdate () {
+        dataSource = new BarcodeDataSource(this);
+        dataSource.open();
+        dataSource.DBOptimieren();
+        dataSource.close();
+    }
 
 }
