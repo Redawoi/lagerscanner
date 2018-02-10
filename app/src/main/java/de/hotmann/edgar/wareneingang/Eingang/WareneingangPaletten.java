@@ -21,7 +21,6 @@ import java.util.Calendar;
 import java.util.List;
 import android.widget.EditText;
 import android.widget.Button;
-import android.text.TextUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
@@ -73,12 +72,12 @@ public class WareneingangPaletten extends AppCompatActivity {
 
 
         final EditText palettennummer = (EditText) findViewById(R.id.editText_palette);
+        assert palettennummer != null;
         palettennummer.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if((event.getAction() == KeyEvent.ACTION_DOWN) &&
                         (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    assert palettennummer != null;
                     String nummer = palettennummer.getText().toString();
                     showAllListEntries1(nummer);
                     kartonanzahlaktualisieren();
@@ -314,6 +313,7 @@ public class WareneingangPaletten extends AppCompatActivity {
         assert palettennummer != null;
         String nummer = palettennummer.getText().toString();
         dataSource.open();
+        assert palettefuelle != null;
         palettefuelle.setText(dataSource.getKartonAnzahlOnPalette(nummer));
     }
     public void palettennummeraktualisieren() {
@@ -338,8 +338,7 @@ public class WareneingangPaletten extends AppCompatActivity {
         editTextQuantity.setText("");
     }
     public String getAktuellePalette() {
-        String palettentextcount = palettentextfeld.getText().toString();
-        return  palettentextcount;
+        return palettentextfeld.getText().toString();
     }
     public List<Eingangwosum> EinträgeEinerPalette(String palette){
         return dataSource.getAllEingaengewoSum(palette);
@@ -374,6 +373,7 @@ public class WareneingangPaletten extends AppCompatActivity {
         final ToggleButton secondarychoicechkbox = (ToggleButton) findViewById(R.id.secondarychoicecheckbox);
         final ToggleButton countornot = (ToggleButton) findViewById(R.id.countcheckbox);
 
+        assert addEingang != null;
         addEingang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
