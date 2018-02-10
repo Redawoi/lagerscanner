@@ -1,8 +1,7 @@
-package de.hotmann.edgar.wareneingang;
+package de.hotmann.edgar.wareneingang.Lagerorte;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -14,10 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -31,13 +28,10 @@ import de.hotmann.edgar.wareneingang.Barcode.BarcodeDataSource;
 import de.hotmann.edgar.wareneingang.Eingang.WareneingangPaletten;
 import de.hotmann.edgar.wareneingang.R;
 
-import static android.app.PendingIntent.getActivity;
-
 public class LocationsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
 
-    private Spinner spinnerhalle,spinnerebene,spinnerreihe;
     public static final String LOG_TAG = WareneingangPaletten.class.getSimpleName();
     private BarcodeDataSource dataSourcebarcode;
 
@@ -86,16 +80,18 @@ public class LocationsActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        if (drawer != null) drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        if (navigationView == null) throw new AssertionError();
         navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        assert drawer != null;
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -114,29 +110,34 @@ public class LocationsActivity extends AppCompatActivity
 
 
     public void addItemsOrteSpinner() {
-        spinnerhalle = (Spinner) findViewById(R.id.spinner_halle);
+        Spinner spinnerhalle = (Spinner) findViewById(R.id.spinner_halle);
 
         List<String> hallenlist = Arrays.asList("Halle 2", "Halle 3", "Halle 4", "Halle 5", "Halle 7");
-        ArrayAdapter<String > halleadapter = new ArrayAdapter<String> (this, R.layout.spinner_style,hallenlist);
+        ArrayAdapter<String> halleadapter;
+        halleadapter = new ArrayAdapter<>(this, R.layout.spinner_style,hallenlist);
         halleadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        assert spinnerhalle != null;
         spinnerhalle.setAdapter(halleadapter);
 
-        spinnerebene = (Spinner) findViewById(R.id.spinner_ebene);
+        Spinner spinnerebene = (Spinner) findViewById(R.id.spinner_ebene);
 
         List<String> ebenenlist = Arrays.asList("1.Ebene", "2.Ebene", "3.Ebene", "4.Ebene");
-        ArrayAdapter<String > ebenenadapter = new ArrayAdapter<String> (this, R.layout.spinner_style,ebenenlist);
+        ArrayAdapter<String > ebenenadapter = new ArrayAdapter<>(this, R.layout.spinner_style, ebenenlist);
         ebenenadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        if (spinnerebene == null) throw new AssertionError();
         spinnerebene.setAdapter(ebenenadapter);
 
-        spinnerreihe = (Spinner) findViewById(R.id.spinner_reihe);
+        Spinner spinnerreihe = (Spinner) findViewById(R.id.spinner_reihe);
 
-        List<String> reihenlist = new ArrayList<String>();
+        List<String> reihenlist = new ArrayList<>();
         for(int l=1; l<=60; l++){
             String al = Integer.toString(l);
             reihenlist.add(al);
         }
-        ArrayAdapter<String > reihenadapter = new ArrayAdapter<String> (this, R.layout.spinner_style,reihenlist);
+        ArrayAdapter<String> reihenadapter;
+        reihenadapter = new ArrayAdapter<>(this, R.layout.spinner_style, reihenlist);
         reihenadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        assert spinnerreihe != null;
         spinnerreihe.setAdapter(reihenadapter);
     }
 
@@ -181,20 +182,10 @@ public class LocationsActivity extends AppCompatActivity
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        assert drawer != null;
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-
-
-
-
-    View.OnClickListener scannen = new View.OnClickListener() {
-        public void onClick(View v) {
-             }
-    };
-
-
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         // Lese Ausgabe
@@ -216,21 +207,26 @@ public class LocationsActivity extends AppCompatActivity
                 EditText editTextOrtSize = (EditText) findViewById(R.id.editTextOrtSize);
 
 
+                if (editTextOrtSeason == null) throw new AssertionError();
                 editTextOrtSeason.setText(Params[0]);
+                if (editTextOrtStyle == null) throw new AssertionError();
                 editTextOrtStyle.setText(Params[1]);
+                if (editTextOrtQuality == null) throw new AssertionError();
                 editTextOrtQuality.setText(Params[2]);
+                if (editTextOrtColour == null) throw new AssertionError();
                 editTextOrtColour.setText(Params[3]);
+                if (editTextOrtSize == null) throw new AssertionError();
                 editTextOrtSize.setText(Params[4]);
             }else{
                 // Ergebnis nicht in unserer Datenbank
                 // Fehlermeldung
-                String message1 = "-!-!-!-Barcode nicht auffindbar-!-!-!-\n\n" +
+                /* String message1 = "-!-!-!-Barcode nicht auffindbar-!-!-!-\n\n" +
                         "1. Versuchen Sie keine betriebsfremden Barcodes zu scannen. (Virengefahr).\n\n" +
                         "2. Zittern Sie mal nicht so blöd rum\n\n" +
                         "3. Wenn Sie unschuldig sind, dann tut das uns leid.\n\n" +
                         "4. Trotzdem sollten Sie nicht denken, dass wir Ihnen Leid zufügen wollen.\nSchauen Sie sich doch einfach im Spiegel an.\n\n" +
                         "5. Lesen Sie die AGBs vor Nutzung dieser App sorgfältig durch\n\n" +
-                        "6. Je öfter Sie mich anklicken, desto länger bleibe ich hier!";
+                        "6. Je öfter Sie mich anklicken, desto länger bleibe ich hier!"; */
                 String message2= "CODE nicht in Datenbank "+ scanContent;
                 final Toast toast = Toast.makeText(getApplicationContext(), message2 , Toast.LENGTH_LONG);
                 toast.show();

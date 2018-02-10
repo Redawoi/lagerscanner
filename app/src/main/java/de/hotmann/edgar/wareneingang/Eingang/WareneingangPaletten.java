@@ -1,5 +1,6 @@
 package de.hotmann.edgar.wareneingang.Eingang;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
@@ -376,14 +377,23 @@ public class WareneingangPaletten extends AppCompatActivity {
         addEingang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                assert editTextPalette != null;
                 String paletteString = editTextPalette.getText().toString();
+                assert editTextSeason != null;
                 String season = editTextSeason.getText().toString();
+                assert editTextStyle != null;
                 String style = editTextStyle.getText().toString();
+                assert editTextQuality != null;
                 String quality = editTextQuality.getText().toString();
+                assert editTextColour != null;
                 String colour = editTextColour.getText().toString();
+                assert editTextSize != null;
                 String size = editTextSize.getText().toString();
+                assert editTextQuantity != null;
                 String quantityString = editTextQuantity.getText().toString();
+                assert secondarychoicechkbox != null;
                 String secondarchoicestring = String.valueOf(secondarychoicechkbox.isChecked());
+                assert countornot != null;
                 String countwithString = String.valueOf(countornot.isChecked());
 
                 if (isEmpty(paletteString)) {
@@ -431,6 +441,7 @@ public class WareneingangPaletten extends AppCompatActivity {
                 InputMethodManager inputMethodManager;
                 inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                 if (getCurrentFocus() != null) {
+                    assert inputMethodManager != null;
                     inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
                 }
                 palettennummeraktualisieren();
@@ -443,7 +454,7 @@ public class WareneingangPaletten extends AppCompatActivity {
     private AlertDialog createEditEingang(final Eingangwosum eingang) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
-        View dialogsView = inflater.inflate(R.layout.dialog_edit_eintraege, null);
+        @SuppressLint("InflateParams") View dialogsView = inflater.inflate(R.layout.dialog_edit_eintraege, null);
 
         final EditText editTextNewPalette = (EditText) dialogsView.findViewById(R.id.editText_new_palette);
         editTextNewPalette.setText(String.valueOf(eingang.getPalette()));
@@ -530,8 +541,6 @@ public class WareneingangPaletten extends AppCompatActivity {
         if (scanningResult.getContents() != null) {
             // Ergebnis erhalten
             String scanContent = scanningResult.getContents();
-            String lastdigit = scanContent.substring(scanContent.length()-1);
-            String tableofdb = "codelist" + lastdigit;
             dataSourcebarcode.open();
             if(dataSourcebarcode.CheckIsBarcodeInDBorNot(scanContent)){
                 // Ergebnis ist in Datenbank
@@ -549,13 +558,13 @@ public class WareneingangPaletten extends AppCompatActivity {
             }else{
                 // Ergebnis nicht in unserer Datenbank
                 // Fehlermeldung
-                String message1 = "-!-!-!-Barcode nicht auffindbar-!-!-!-\n\n" +
+                /* String message1 = "-!-!-!-Barcode nicht auffindbar-!-!-!-\n\n" +
                         "1. Versuchen Sie keine betriebsfremden Barcodes zu scannen. (Virengefahr).\n\n" +
                         "2. Zittern Sie mal nicht so blöd rum\n\n" +
                         "3. Wenn Sie unschuldig sind, dann tut das uns leid.\n\n" +
                         "4. Trotzdem sollten Sie nicht denken, dass wir Ihnen Leid zufügen wollen.\nSchauen Sie sich doch einfach im Spiegel an.\n\n" +
                         "5. Lesen Sie die AGBs vor Nutzung dieser App sorgfältig durch\n\n" +
-                        "6. Je öfter Sie mich anklicken, desto länger bleibe ich hier!";
+                        "6. Je öfter Sie mich anklicken, desto länger bleibe ich hier!"; */
                 String message2= "CODE nicht in Datenbank "+ scanContent;
                     final Toast toast = Toast.makeText(getApplicationContext(), message2 , Toast.LENGTH_LONG);
                     toast.show();
@@ -569,12 +578,14 @@ public class WareneingangPaletten extends AppCompatActivity {
     }
 
     View.OnClickListener palettemehr = new View.OnClickListener() {
+        @SuppressLint("SetTextI18n")
         public void onClick(View v) {
             palettentextfeld.setText(Integer.toString((Integer.parseInt(getAktuellePalette())+1)));
             aktualisierenBeiPalettenWechsel(); }
     };
 
      View.OnClickListener paletteweniger = new View.OnClickListener() {
+        @SuppressLint("SetTextI18n")
         public void onClick(View v) {
             if (Integer.parseInt(getAktuellePalette())==1) {
                 palettentextfeld.setText("1");
