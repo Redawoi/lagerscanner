@@ -86,9 +86,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/season"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:textColor="@color/colorAccent"
-                android:layout_marginLeft="80dp"/>
+                android:layout_marginLeft="80dp"
+                tools:ignore="SpUsage" />
             <EditText
                 android:id="@+id/editTextOrtSeason"
                 android:layout_width="match_parent"
@@ -134,14 +135,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/colour"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:textColor="@color/colorAccent"
-                android:layout_marginLeft="80dp" />
+                android:layout_marginLeft="80dp"
+                android:layout_marginStart="80dp" />
             <EditText
                 android:id="@+id/editTextOrtColour"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Farbe"
+                android:hint="@string/colour"
                 android:layout_gravity="end"
                 android:textAlignment="textEnd"
                 android:textColor="@color/colorAccent"
@@ -150,18 +152,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/size"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:textColor="@color/colorAccent"
-                android:layout_marginLeft="80dp" />
+                android:layout_marginLeft="80dp"
+                android:layout_marginStart="80dp" />
             <EditText
                 android:id="@+id/editTextOrtSize"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Größe"
+                android:hint="@string/size"
                 android:layout_gravity="end"
                 android:textAlignment="textEnd"
                 android:textColor="@color/colorAccent"
-                android:textColorHint="@color/zxing_custom_possible_result_points"/>
+                android:textColorHint="@color/zxing_custom_possible_result_points"
+                tools:ignore="TextFields" />
         </LinearLayout>
 
     </LinearLayout>
