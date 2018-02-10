@@ -110,10 +110,9 @@ public class BarcodeDataSource {
         return barcode;
     }
 
-    public String[] getOneBarcode(String eannoparam, String table) {
+    public String[] getOneBarcode(String eannoparam) {
         Log.d(LOG_TAG, "Kommt raus? Main Activity3");
-
-
+            String table = "codelist"+eannoparam.substring(eannoparam.length()-1);
             String[] result = {null,null,null,null,null,null};
             Cursor cursor = database.query(table, columns, BarcodeDbHelper.COLUMN_EANNO + "=" + eannoparam, null, null, null, null, null);
                     cursor.moveToFirst();
@@ -133,9 +132,8 @@ public class BarcodeDataSource {
     }
 
 
-    public boolean CheckIsBarcodeInDBorNot(String fieldValue, String table) {
-
-        String Query = "Select * from " + table +  " where eanno = " + fieldValue;
+    public boolean CheckIsBarcodeInDBorNot(String fieldValue) {
+        String Query = "Select * from codelist"+fieldValue.substring(fieldValue.length()-1) +  " where eanno = " + fieldValue;
         Cursor cursor = database.rawQuery(Query, null);
         if(cursor.getCount() <= 0){
             cursor.close();

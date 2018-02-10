@@ -40,6 +40,8 @@ import de.hotmann.edgar.wareneingang.MainstartActivity;
 import de.hotmann.edgar.wareneingang.R;
 import de.hotmann.edgar.wareneingang.Eingang.Auswertung.TableViewActivity;
 
+import static android.text.TextUtils.isEmpty;
+
 
 public class WareneingangPaletten extends AppCompatActivity {
 
@@ -75,6 +77,7 @@ public class WareneingangPaletten extends AppCompatActivity {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if((event.getAction() == KeyEvent.ACTION_DOWN) &&
                         (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    assert palettennummer != null;
                     String nummer = palettennummer.getText().toString();
                     showAllListEntries1(nummer);
                     kartonanzahlaktualisieren();
@@ -155,7 +158,6 @@ public class WareneingangPaletten extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
         switch (item.getItemId()) {
             case (R.id.action_datenblatt):
                 Intent intent = new Intent(this, TableViewActivity.class);
@@ -175,6 +177,7 @@ public class WareneingangPaletten extends AppCompatActivity {
     private void initializeContextualActionBar() {
 
         final ListView eingangListView = (ListView) findViewById(R.id.listview_eingaenge);
+        assert eingangListView != null;
         eingangListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
 
         eingangListView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
@@ -307,6 +310,7 @@ public class WareneingangPaletten extends AppCompatActivity {
     public void kartonanzahlaktualisieren() {
         EditText palettennummer = (EditText) findViewById(R.id.editText_palette);
         TextView palettefuelle = (TextView) findViewById(R.id.palettefuelle);
+        assert palettennummer != null;
         String nummer = palettennummer.getText().toString();
         dataSource.open();
         palettefuelle.setText(dataSource.getKartonAnzahlOnPalette(nummer));
@@ -382,31 +386,31 @@ public class WareneingangPaletten extends AppCompatActivity {
                 String secondarchoicestring = String.valueOf(secondarychoicechkbox.isChecked());
                 String countwithString = String.valueOf(countornot.isChecked());
 
-                if (TextUtils.isEmpty(paletteString)) {
+                if (isEmpty(paletteString)) {
                     editTextPalette.setError(getString(R.string.editText_errorMessage));
                     return;
                 }
-                if (TextUtils.isEmpty(season)) {
+                if (isEmpty(season)) {
                     editTextSeason.setError(getString(R.string.editText_errorMessage));
                     return;
                 }
-                if (TextUtils.isEmpty(style)) {
+                if (isEmpty(style)) {
                     editTextStyle.setError(getString(R.string.editText_errorMessage));
                     return;
                 }
-                if (TextUtils.isEmpty(quality)) {
+                if (isEmpty(quality)) {
                     editTextQuality.setError(getString(R.string.editText_errorMessage));
                     return;
                 }
-                if (TextUtils.isEmpty(colour)) {
+                if (isEmpty(colour)) {
                     editTextColour.setError(getString(R.string.editText_errorMessage));
                     return;
                 }
-                if (TextUtils.isEmpty(size)) {
+                if (isEmpty(size)) {
                     editTextSize.setError(getString(R.string.editText_errorMessage));
                     return;
                 }
-                if (TextUtils.isEmpty(quantityString)) {
+                if (isEmpty(quantityString)) {
                     editTextQuantity.setError(getString(R.string.editText_errorMessage));
                     return;
                 }
@@ -486,21 +490,21 @@ public class WareneingangPaletten extends AppCompatActivity {
                         int newCountornot = checkBoxCountOrNot.isChecked()?1:0;
 
 
-                        if ((TextUtils.isEmpty(quantityString))
-                                || (TextUtils.isEmpty(quality))
-                                || (TextUtils.isEmpty(size))
-                                || (TextUtils.isEmpty(colour))
-                                || (TextUtils.isEmpty(style))
-                                || (TextUtils.isEmpty(season))
-                                || (TextUtils.isEmpty(paletteString))) {
+                        if ((isEmpty(quantityString))
+                                || (isEmpty(quality))
+                                || (isEmpty(size))
+                                || (isEmpty(colour))
+                                || (isEmpty(style))
+                                || (isEmpty(season))
+                                || (isEmpty(paletteString))) {
                             Log.d(LOG_TAG, "Ein Eintrag enthielt keinen Text. Daher Abbruch der Änderung.");
                             return;
                         }
 
                         int quantity = Integer.parseInt(quantityString);
                         int palette = Integer.parseInt(paletteString);
-                        boolean secondarychoice = (newSecondary==1)?true:false;
-                        boolean countwith = (newCountornot==1)?true:false;
+                        boolean secondarychoice = newSecondary == 1;
+                        boolean countwith = newCountornot == 1;
                         // An dieser Stelle schreiben wir die geänderten Daten in die SQLite Datenbank
                         Eingangwosum updatedEingang = dataSource.updateEingang(eingang.getId(), palette, season, style, quality, colour, size, secondarychoice, countwith, quantity);
 
@@ -529,10 +533,10 @@ public class WareneingangPaletten extends AppCompatActivity {
             String lastdigit = scanContent.substring(scanContent.length()-1);
             String tableofdb = "codelist" + lastdigit;
             dataSourcebarcode.open();
-            if(dataSourcebarcode.CheckIsBarcodeInDBorNot(scanContent, tableofdb)){
+            if(dataSourcebarcode.CheckIsBarcodeInDBorNot(scanContent)){
                 // Ergebnis ist in Datenbank
                 // Ausgabe des Ergebnisses auf TextViews
-                String[] Params = dataSourcebarcode.getOneBarcode(scanContent, tableofdb);
+                String[] Params = dataSourcebarcode.getOneBarcode(scanContent);
                 editTextSeason.setText(Params[0]);
                 editTextStyle.setText(Params[1]);
                 editTextQuality.setText(Params[2]);
