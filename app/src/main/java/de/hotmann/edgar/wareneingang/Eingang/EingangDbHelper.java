@@ -28,6 +28,7 @@ public class EingangDbHelper extends SQLiteOpenHelper{
     public static final String COLUMN_QUALITY = "quality";
     public static final String COLUMN_COLOUR = "colour";
     public static final String COLUMN_SIZE = "size";
+    public static final String COLUMN_LGD = "lgd";
     public static final String COLUMN_QUANTITY = "quantity";
     public static final String COLUMN_SECONDARYCHOICE = "secondarychoice";
     public static final String COLUMN_COUNTTOPALLET = "counttocartononpallet";
@@ -46,6 +47,7 @@ public class EingangDbHelper extends SQLiteOpenHelper{
                     COLUMN_QUALITY + " TEXT NOT NULL, " +
                     COLUMN_COLOUR + " TEXT NOT NULL, " +
                     COLUMN_SIZE + " TEXT NOT NULL, " +
+                    COLUMN_LGD + "TEXT NOT NULL" +
                     COLUMN_QUANTITY + " INTEGER NOT NULL, " +
                     COLUMN_SECONDARYCHOICE + " INTEGER, " +
                     COLUMN_COUNTTOPALLET + " INTEGER," +

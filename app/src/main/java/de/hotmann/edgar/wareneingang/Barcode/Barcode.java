@@ -40,7 +40,17 @@ public class Barcode {
     long getId() {return id;}
     @Override
     public String toString() {
+        String lengthcode;
+        if(lgd=="0") {
+            lengthcode = null;
+        }else if(lgd == "1"){
+            lengthcode="K";
+        }else if(lgd=="2"){
+            lengthcode="L";
+        }else {
+            lengthcode="FEHLER";
+        }
+            return season + " " + style + "-" + quality + " Fb. " + colour + " Gr. " + size + lengthcode + " : " + eanno;
 
-        return season + " " + style + "-" + quality + " Fb. " + colour + " Gr. " + size + " : " + eanno;
     }
 }

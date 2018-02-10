@@ -81,6 +81,8 @@
     <string name="ebenenorte">Ebene</string>
     <string name="halle">Halle</string>
     <string name="length">Länge</string>
+    <string name="editText_hint_lgd">012</string>
+    <string name="dialog_title_lgd">Längencode</string>
 
 
 </resources>

@@ -29,6 +29,7 @@ public class EingangDataSource {
             EingangDbHelper.COLUMN_QUALITY,
             EingangDbHelper.COLUMN_COLOUR,
             EingangDbHelper.COLUMN_SIZE,
+            EingangDbHelper.COLUMN_LGD,
             EingangDbHelper.COLUMN_QUANTITY,
             EingangDbHelper.COLUMN_QUANTSUM,
             EingangDbHelper.COLUMN_DAY,
@@ -46,6 +47,7 @@ public class EingangDataSource {
             EingangDbHelper.COLUMN_QUALITY,
             EingangDbHelper.COLUMN_COLOUR,
             EingangDbHelper.COLUMN_SIZE,
+            EingangDbHelper.COLUMN_LGD,
             EingangDbHelper.COLUMN_QUANTITY,
             EingangDbHelper.COLUMN_QUANTSUM,
             EingangDbHelper.COLUMN_DAY,
@@ -64,6 +66,7 @@ public class EingangDataSource {
             EingangDbHelper.COLUMN_QUALITY,
             EingangDbHelper.COLUMN_COLOUR,
             EingangDbHelper.COLUMN_SIZE,
+            EingangDbHelper.COLUMN_LGD,
             EingangDbHelper.COLUMN_QUANTITY,
             EingangDbHelper.COLUMN_DAY,
             EingangDbHelper.COLUMN_MONTH,
@@ -88,7 +91,7 @@ public class EingangDataSource {
             EingangDbHelper.COLUMN_WEEK,
     };
 
-    public  Eingang createEingang(int palette, String season, String style, String quality, String colour,String size, boolean secondarychoice, boolean countwith, int quantity, int day, int month, int year, int week) {
+    public  Eingang createEingang(int palette, String season, String style, String quality, String colour,String size,String lgd, boolean secondarychoice, boolean countwith, int quantity, int day, int month, int year, int week) {
         open();
         ContentValues values = new ContentValues();
         values.put(EingangDbHelper.COLUMN_PALETTE, palette);
@@ -97,6 +100,7 @@ public class EingangDataSource {
         values.put(EingangDbHelper.COLUMN_QUALITY, quality);
         values.put(EingangDbHelper.COLUMN_COLOUR, colour);
         values.put(EingangDbHelper.COLUMN_SIZE, size);
+        values.put(EingangDbHelper.COLUMN_LGD, lgd);
         values.put(EingangDbHelper.COLUMN_SECONDARYCHOICE, secondarychoice);
         values.put(EingangDbHelper.COLUMN_COUNTTOPALLET, countwith);
         values.put(EingangDbHelper.COLUMN_QUANTITY, quantity);
@@ -119,7 +123,7 @@ public class EingangDataSource {
         return eingang;
     }
 
-    public Eingangwosum updateEingang(long id, int newPalette, String newSeason, String newStyle, String newQuality, String newColour, String newSize, boolean newSecondarychoice, boolean newCountwith, int newQuantity) {
+    public Eingangwosum updateEingang(long id, int newPalette, String newSeason, String newStyle, String newQuality, String newColour, String newSize, String newLgd, boolean newSecondarychoice, boolean newCountwith, int newQuantity) {
         ContentValues values = new ContentValues();
         values.put(EingangDbHelper.COLUMN_PALETTE, newPalette);
         values.put(EingangDbHelper.COLUMN_SEASON, newSeason);
@@ -127,6 +131,7 @@ public class EingangDataSource {
         values.put(EingangDbHelper.COLUMN_QUALITY, newQuality);
         values.put(EingangDbHelper.COLUMN_COLOUR, newColour);
         values.put(EingangDbHelper.COLUMN_SIZE, newSize);
+        values.put(EingangDbHelper.COLUMN_LGD, newLgd);
         values.put(EingangDbHelper.COLUMN_SECONDARYCHOICE, newSecondarychoice);
         values.put(EingangDbHelper.COLUMN_COUNTTOPALLET, newCountwith);
         values.put(EingangDbHelper.COLUMN_QUANTITY, newQuantity);
@@ -171,6 +176,7 @@ public class EingangDataSource {
         int idQuality = cursor.getColumnIndex(EingangDbHelper.COLUMN_QUALITY);
         int idColour = cursor.getColumnIndex(EingangDbHelper.COLUMN_COLOUR);
         int idSize = cursor.getColumnIndex(EingangDbHelper.COLUMN_SIZE);
+        int idLgd = cursor.getColumnIndex(EingangDbHelper.COLUMN_LGD);
         int idQuantity = cursor.getColumnIndex(EingangDbHelper.COLUMN_QUANTITY);
         int idDay = cursor.getColumnIndex(EingangDbHelper.COLUMN_DAY);
         int idMonth = cursor.getColumnIndex(EingangDbHelper.COLUMN_MONTH);
@@ -186,6 +192,7 @@ public class EingangDataSource {
         String quality = cursor.getString(idQuality);
         String colour = cursor.getString(idColour);
         String size = cursor.getString(idSize);
+        String lgd = cursor.getString(idLgd);
         boolean secondarychoice = Boolean.parseBoolean(cursor.getString(idSecondarychoice));
         boolean countwith = Boolean.parseBoolean(cursor.getString(idCountwith));
         int day = cursor.getInt(idDay);
@@ -196,7 +203,7 @@ public class EingangDataSource {
         int quantsum = cursor.getInt(idQuantSum);
         long id = cursor.getLong(idIndex);
 
-        Eingang eingang = new Eingang(palette, season, style, quality, colour, size, quantity, quantsum, secondarychoice,countwith, day, month, year, week, id);
+        Eingang eingang = new Eingang(palette, season, style, quality, colour, size,lgd, quantity, quantsum, secondarychoice,countwith, day, month, year, week, id);
 
         return eingang;
     }
@@ -210,6 +217,7 @@ public class EingangDataSource {
         int idQuality = cursor.getColumnIndex(EingangDbHelper.COLUMN_QUALITY);
         int idColour = cursor.getColumnIndex(EingangDbHelper.COLUMN_COLOUR);
         int idSize = cursor.getColumnIndex(EingangDbHelper.COLUMN_SIZE);
+        int idLgd =cursor.getColumnIndex(EingangDbHelper.COLUMN_LGD);
         int idDay = cursor.getColumnIndex(EingangDbHelper.COLUMN_DAY);
         int idMonth = cursor.getColumnIndex(EingangDbHelper.COLUMN_MONTH);
         int idYear = cursor.getColumnIndex(EingangDbHelper.COLUMN_YEAR);
@@ -224,18 +232,17 @@ public class EingangDataSource {
         String quality = cursor.getString(idQuality);
         String colour = cursor.getString(idColour);
         String size = cursor.getString(idSize);
+        String lgd = cursor.getString(idLgd);
         int quantity = cursor.getInt(idQuantity);
-        boolean secondary = (cursor.getInt(idSecondary)==1)?true:false;
-        boolean countwith = (cursor.getInt(idCountwith)==1)?true:false;
+        boolean secondary = cursor.getInt(idSecondary) == 1;
+        boolean countwith = cursor.getInt(idCountwith) == 1;
         int day = cursor.getInt(idDay);
         int month = cursor.getInt(idMonth);
         int year = cursor.getInt(idYear);
         int week = cursor.getInt(idWeek);
         long id = cursor.getLong(idIndex);
 
-        Eingangwosum eingang = new Eingangwosum(palette, season, style, quality, colour, size, quantity, secondary,countwith,day,month,year,week, id);
-
-        return eingang;
+        return new Eingangwosum(palette, season, style, quality, colour, size,lgd, quantity, secondary,countwith,day,month,year, id);
     }
 
     public List<Eingangwosum> getAllEingaengewoSum(String palette) {

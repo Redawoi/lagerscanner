@@ -6,7 +6,7 @@ package de.hotmann.edgar.wareneingang.Eingang;
 public class Eingang {
 
     private int palette;
-    private String season, style, quality, colour, size;
+    private String season, style, quality, colour, size,lgd;
     private int quantity, quantsum, day, month, year, week;
     private boolean secondarychoice;
     private boolean counttopallet;
@@ -18,6 +18,7 @@ public class Eingang {
                    String quality,
                    String colour,
                    String size,
+                   String lgd,
                    int quantity,
                    int quantsum,
                    boolean secondarychoice,
@@ -33,6 +34,7 @@ public class Eingang {
         this.quality = quality;
         this.colour = colour;
         this.size = size;
+        this.lgd = lgd;
         this.quantity = quantity;
         this.quantsum = quantsum;
         this.secondarychoice = secondarychoice;
@@ -87,6 +89,14 @@ public class Eingang {
         this.size = size;
     }
 
+    public String getLgd() {
+        return lgd;
+    }
+
+    public void setLgd(String lgd) {
+        this.lgd = lgd;
+    }
+
     public int getQuantity() {
         return quantity;
     }
@@ -139,7 +149,7 @@ public class Eingang {
 
     @Override
     public String toString() {
-        String output = day + "." + month + "." + year + " S." + season + " " + style + " " + quality + " Fb. " + colour + " Gr. " + size + " x " + quantity;
+       String output = day + "." + month + "." + year + " S." + season + " " + style + " " + quality + " Fb. " + colour + " Gr. " + size + " x " + quantity;
         //String output = "Palette: " + palette + " " + season + " " + style + "-" + quality + " Fb. " + colour + " Gr. " + size + " x " + quantsum;
 
         return output;

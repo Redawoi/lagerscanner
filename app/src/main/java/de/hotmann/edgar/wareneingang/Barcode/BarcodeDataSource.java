@@ -1,11 +1,6 @@
 package de.hotmann.edgar.wareneingang.Barcode;
 
-/**
- * Created by edgar on 25.05.2016.
- */
-
 import android.content.Context;
-import android.content.ContentValues;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -30,59 +25,6 @@ public class BarcodeDataSource {
             BarcodeDbHelper.COLUMN_ITEMNAME,
     };
 
-
-
-    public Barcode createBarcode(String season, String style, String quality, String lgd, String colour, String size, String eanno, String itemname, String table) {
-        ContentValues values = new ContentValues();
-        values.put(BarcodeDbHelper.COLUMN_SEASON, season);
-        values.put(BarcodeDbHelper.COLUMN_STYLE, style);
-        values.put(BarcodeDbHelper.COLUMN_QUALITY, quality);
-        values.put(BarcodeDbHelper.COLUMN_LGD, lgd);
-        values.put(BarcodeDbHelper.COLUMN_COLOUR, colour);
-        values.put(BarcodeDbHelper.COLUMN_SIZE, size);
-        values.put(BarcodeDbHelper.COLUMN_EANNO, eanno);
-        values.put(BarcodeDbHelper.COLUMN_ITEMNAME, itemname);
-
-
-        long insertId = database.insert(table, null, values);
-
-        Cursor cursor = database.query(table,
-                columns, BarcodeDbHelper.COLUMN_ID + "=" + insertId,
-                null, null, null, null);
-        cursor.moveToFirst();
-        Barcode barcode = cursorToBarcode(cursor);
-        cursor.close();
-
-        return barcode;
-    }
-
-    public Barcode updateBarcode(long id, String newSeason, String newStyle, String newQuality, String newLgd, String newColour, String newSize, String newEanno, String newItemname, String table) {
-        ContentValues values = new ContentValues();
-        values.put(BarcodeDbHelper.COLUMN_SEASON, newSeason);
-        values.put(BarcodeDbHelper.COLUMN_STYLE, newStyle);
-        values.put(BarcodeDbHelper.COLUMN_QUALITY, newQuality);
-        values.put(BarcodeDbHelper.COLUMN_LGD, newLgd);
-        values.put(BarcodeDbHelper.COLUMN_COLOUR, newColour);
-        values.put(BarcodeDbHelper.COLUMN_SIZE, newSize);
-        values.put(BarcodeDbHelper.COLUMN_EANNO, newEanno);
-        values.put(BarcodeDbHelper.COLUMN_ITEMNAME, newItemname);
-
-        database.update(table,
-                values,
-                BarcodeDbHelper.COLUMN_ID + "=" + id,
-                null);
-
-        Cursor cursor = database.query(table,
-                columns, BarcodeDbHelper.COLUMN_ID +"=" +id,
-                null, null, null, null);
-
-        cursor.moveToFirst();
-        Barcode barcode = cursorToBarcode(cursor);
-        cursor.close();
-
-        return barcode;
-    }
-
     private Barcode cursorToBarcode(Cursor cursor) {
         int idIndex = cursor.getColumnIndex(BarcodeDbHelper.COLUMN_ID);
         int idSeason = cursor.getColumnIndex(BarcodeDbHelper.COLUMN_SEASON);
@@ -93,8 +35,6 @@ public class BarcodeDataSource {
         int idSize = cursor.getColumnIndex(BarcodeDbHelper.COLUMN_SIZE);
         int idEanno = cursor.getColumnIndex(BarcodeDbHelper.COLUMN_EANNO);
         int idItemname = cursor.getColumnIndex(BarcodeDbHelper.COLUMN_ITEMNAME);
-
-
         String season = cursor.getString(idSeason);
         String style = cursor.getString(idStyle);
         String quality = cursor.getString(idQuality);
@@ -104,16 +44,14 @@ public class BarcodeDataSource {
         String eanno = cursor.getString(idEanno);
         String itemname = cursor.getString(idItemname);
         long id = cursor.getLong(idIndex);
-
-        Barcode barcode = new Barcode(season, style, quality, lgd, colour, size, eanno,itemname,id );
-
-        return barcode;
+        return new Barcode(season, style, quality, lgd, colour, size, eanno,itemname,id );
     }
 
     public String[] getOneBarcode(String eannoparam) {
         Log.d(LOG_TAG, "Kommt raus? Main Activity3");
-            String table = "codelist"+eannoparam.substring(eannoparam.length()-1);
-            String[] result = {null,null,null,null,null,null};
+        String table = "codelist";
+        if(CheckforFastDB()) table = "codelist" + eannoparam.substring(eannoparam.length() - 1);
+            String[] result;
             Cursor cursor = database.query(table, columns, BarcodeDbHelper.COLUMN_EANNO + "=" + eannoparam, null, null, null, null, null);
                     cursor.moveToFirst();
                     Barcode barcode;
@@ -123,17 +61,27 @@ public class BarcodeDataSource {
                     String ergebnis3 = barcode.getQuality();
                     String ergebnis4 = barcode.getColour();
                     String ergebnis5 = barcode.getSize();
-                    String ergebnis6 = barcode.getItemname();
-                    String[] title = {ergebnis1, ergebnis2, ergebnis3, ergebnis4, ergebnis5, ergebnis6};
-                    result=title;
+                    String ergebnis6 = barcode.getLgd();
+                    String ergebnis7 = barcode.getItemname();
+        result= new String[]{ergebnis1, ergebnis2, ergebnis3, ergebnis4, ergebnis5, ergebnis6,ergebnis7};
                     cursor.close();
-        //Cursor cursor = database.query(BarcodeDbHelper.WARENEINGANG_TABLENAME, columns, null, null, null, null, null, null);
         return  result;
     }
 
+    public boolean CheckforFastDB() {
+        String Query = "SELECT name FROM sqlite_master WHERE type='table' AND name='codelist0' OR name= 'codelist1' OR name= 'codelist2' OR name= 'codelist3' OR name= 'codelist4' OR name= 'codelist5' OR name= 'codelist6' OR name= 'codelist7' OR name= 'codelist8' OR name= 'codelist9';";
+        Cursor cursor = database.rawQuery(Query, null);
+        if(cursor.getCount() == 10) {
+            cursor.close();
+            return true;
+        }
+        return false;
+    }
 
     public boolean CheckIsBarcodeInDBorNot(String fieldValue) {
-        String Query = "Select * from codelist"+fieldValue.substring(fieldValue.length()-1) +  " where eanno = " + fieldValue;
+        String table = "codelist";
+        if(CheckforFastDB()) table = "codelist" + fieldValue.substring(fieldValue.length() - 1);
+        String Query = "Select * from "+ table + " where eanno = " + fieldValue;
         Cursor cursor = database.rawQuery(Query, null);
         if(cursor.getCount() <= 0){
             cursor.close();
@@ -142,7 +90,6 @@ public class BarcodeDataSource {
         cursor.close();
         return true;
     }
-
 
     public BarcodeDataSource(Context context) {
         Log.d(LOG_TAG, "Unsere DataSource erzeugt jetzt den dbHelper.");
@@ -159,15 +106,4 @@ public class BarcodeDataSource {
         dbHelper.close();
         Log.d(LOG_TAG, "Datenbank mit Hilfe des DbHelpers geschlossen.");
     }
-
-    public void deleteBarcode(Barcode barcode, String table) {
-        long id = barcode.getId();
-
-        database.delete(table,
-                BarcodeDbHelper.COLUMN_ID + "=" +id,
-                null);
-        Log.d(LOG_TAG, "Eintrag gelöscht! ID: " + id + " Inhalt: " + barcode.toString());
-    }
-
-
 }

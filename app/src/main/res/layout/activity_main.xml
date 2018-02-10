@@ -119,14 +119,27 @@
                 android:backgroundTint="@color/zxing_custom_possible_result_points"/>
 
             <EditText
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:imeOptions="flagNoExtractUi"
+            android:layout_height="wrap_content"
+            android:hint="@string/editText_hint_size"
+            android:inputType="number"
+            android:id="@+id/editText_size"
+            android:layout_weight="3"
+            android:textColor="@color/colorAccent"
+            android:textColorHint="@color/zxing_custom_possible_result_points"
+            android:backgroundTint="@color/zxing_custom_possible_result_points"/>
+
+            <EditText
                 android:layout_width="0dp"
                 android:gravity="center"
                 android:imeOptions="flagNoExtractUi"
                 android:layout_height="wrap_content"
-                android:hint="@string/editText_hint_size"
+                android:hint="@string/editText_hint_lgd"
                 android:inputType="number"
-                android:id="@+id/editText_size"
-                android:layout_weight="3"
+                android:id="@+id/editText_lgd"
+                android:layout_weight="1"
                 android:textColor="@color/colorAccent"
                 android:textColorHint="@color/zxing_custom_possible_result_points"
                 android:backgroundTint="@color/zxing_custom_possible_result_points"/>

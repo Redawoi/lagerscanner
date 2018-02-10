@@ -49,7 +49,7 @@ public class WareneingangPaletten extends AppCompatActivity {
     private EingangDataSource dataSource;
     private BarcodeDataSource dataSourcebarcode;
     private GoogleApiClient client;
-    public EditText palettentextfeld, editTextSeason, editTextStyle, editTextQuality, editTextColour, editTextSize, editTextQuantity;
+    public EditText palettentextfeld, editTextSeason, editTextStyle, editTextQuality, editTextColour, editTextSize, editTextLgd, editTextQuantity;
     public ListView eingangListView;
     Button nextpalette, prevpalette;
 
@@ -300,6 +300,7 @@ public class WareneingangPaletten extends AppCompatActivity {
         editTextQuality = (EditText) findViewById(R.id.editText_quality);
         editTextColour = (EditText) findViewById(R.id.editText_colour);
         editTextSize = (EditText) findViewById(R.id.editText_size);
+        editTextLgd = (EditText) findViewById(R.id.editText_lgd);
         editTextQuantity = (EditText) findViewById(R.id.editText_quantity);
 
     }
@@ -335,6 +336,7 @@ public class WareneingangPaletten extends AppCompatActivity {
         editTextQuality.setText("");
         editTextColour.setText("");
         editTextSize.setText("");
+        editTextLgd.setText("");
         editTextQuantity.setText("");
     }
     public String getAktuellePalette() {
@@ -369,6 +371,7 @@ public class WareneingangPaletten extends AppCompatActivity {
         final EditText editTextQuality = (EditText) findViewById(R.id.editText_quality);
         final EditText editTextColour = (EditText) findViewById(R.id.editText_colour);
         final EditText editTextSize = (EditText) findViewById(R.id.editText_size);
+        final EditText editTextLgd = (EditText) findViewById(R.id.editText_lgd);
         final EditText editTextQuantity = (EditText) findViewById(R.id.editText_quantity);
         final ToggleButton secondarychoicechkbox = (ToggleButton) findViewById(R.id.secondarychoicecheckbox);
         final ToggleButton countornot = (ToggleButton) findViewById(R.id.countcheckbox);
@@ -389,6 +392,8 @@ public class WareneingangPaletten extends AppCompatActivity {
                 String colour = editTextColour.getText().toString();
                 assert editTextSize != null;
                 String size = editTextSize.getText().toString();
+                assert editTextLgd != null;
+                String lgd = editTextLgd.getText().toString();
                 assert editTextQuantity != null;
                 String quantityString = editTextQuantity.getText().toString();
                 assert secondarychoicechkbox != null;
@@ -420,6 +425,11 @@ public class WareneingangPaletten extends AppCompatActivity {
                     editTextSize.setError(getString(R.string.editText_errorMessage));
                     return;
                 }
+
+                if (isEmpty(lgd)) {
+                    editTextLgd.setError(getString(R.string.editText_errorMessage));
+                    return;
+                }
                 if (isEmpty(quantityString)) {
                     editTextQuantity.setError(getString(R.string.editText_errorMessage));
                     return;
@@ -436,7 +446,7 @@ public class WareneingangPaletten extends AppCompatActivity {
                 int month  = jetzt.get(Calendar.MONTH)+1;
                 int year = jetzt.get(Calendar.YEAR);
                 int week= jetzt.get(Calendar.WEEK_OF_YEAR);
-                dataSource.createEingang(palette, season, style, quality, colour, size, secondarchoice, countwith, quantity,day,month,year,week);
+                dataSource.createEingang(palette, season, style, quality, colour, size,lgd, secondarchoice, countwith, quantity,day,month,year,week);
 
                 InputMethodManager inputMethodManager;
                 inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
@@ -474,6 +484,9 @@ public class WareneingangPaletten extends AppCompatActivity {
         final EditText editTextNewSize = (EditText) dialogsView.findViewById(R.id.editText_new_size);
         editTextNewSize.setText(String.valueOf(eingang.getSize()));
 
+        final EditText editTextNewLgd = (EditText) dialogsView.findViewById(R.id.editText_new_lgd);
+        editTextNewLgd.setText(String.valueOf(eingang.getLgd()));
+
         final EditText editTextNewQuantity = (EditText) dialogsView.findViewById(R.id.editText_new_quantity);
         editTextNewQuantity.setText(String.valueOf(eingang.getQuantity()));
 
@@ -496,6 +509,7 @@ public class WareneingangPaletten extends AppCompatActivity {
                         String quality = editTextNewQuality.getText().toString();
                         String colour = editTextNewColour.getText().toString();
                         String size = editTextNewSize.getText().toString();
+                        String lgd = editTextNewLgd.getText().toString();
                         String quantityString = editTextNewQuantity.getText().toString();
                         int newSecondary = checkBoxNewSecondary.isChecked()?1:0;
                         int newCountornot = checkBoxCountOrNot.isChecked()?1:0;
@@ -506,6 +520,7 @@ public class WareneingangPaletten extends AppCompatActivity {
                                 || (isEmpty(size))
                                 || (isEmpty(colour))
                                 || (isEmpty(style))
+                                || (isEmpty(lgd))
                                 || (isEmpty(season))
                                 || (isEmpty(paletteString))) {
                             Log.d(LOG_TAG, "Ein Eintrag enthielt keinen Text. Daher Abbruch der Änderung.");
@@ -517,7 +532,7 @@ public class WareneingangPaletten extends AppCompatActivity {
                         boolean secondarychoice = newSecondary == 1;
                         boolean countwith = newCountornot == 1;
                         // An dieser Stelle schreiben wir die geänderten Daten in die SQLite Datenbank
-                        Eingangwosum updatedEingang = dataSource.updateEingang(eingang.getId(), palette, season, style, quality, colour, size, secondarychoice, countwith, quantity);
+                        Eingangwosum updatedEingang = dataSource.updateEingang(eingang.getId(), palette, season, style, quality, colour, size, lgd, secondarychoice, countwith, quantity);
 
                         Log.d(LOG_TAG, "Alter Eintrag - ID: " + eingang.getId() + " Inhalt: " + eingang.toString());
                         Log.d(LOG_TAG, "Neuer Eintrag - ID: " + updatedEingang.getId() + " Inhalt: " + updatedEingang.toString());
@@ -551,6 +566,7 @@ public class WareneingangPaletten extends AppCompatActivity {
                 editTextQuality.setText(Params[2]);
                 editTextColour.setText(Params[3]);
                 editTextSize.setText(Params[4]);
+                editTextLgd.setText(Params[5]);
                 editTextQuantity.requestFocus();
                 if(editTextQuantity.requestFocus()) {
                     getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
