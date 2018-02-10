@@ -205,10 +205,10 @@ public class LocationsActivity extends AppCompatActivity
             // Ergebnis erhalten
             String scanContent = scanningResult.getContents();
             dataSourcebarcode.open();
-            if(dataSourcebarcode.CheckIsBarcodeInDBorNot(scanContent, "codelist")){
+            if(dataSourcebarcode.CheckIsBarcodeInDBorNot(scanContent)){
                 // Ergebnis ist in Datenbank
                 // Ausgabe des Ergebnisses auf TextViews
-                String[] Params = dataSourcebarcode.getOneBarcode(scanContent, "codelist");
+                String[] Params = dataSourcebarcode.getOneBarcode(scanContent);
                 EditText editTextOrtSeason = (EditText) findViewById(R.id.editTextOrtSeason);
                 EditText editTextOrtStyle = (EditText) findViewById(R.id.editTextOrtStyle);
                 EditText editTextOrtQuality = (EditText) findViewById(R.id.editTextOrtQualität);

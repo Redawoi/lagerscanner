@@ -529,10 +529,10 @@ public class WareneingangPaletten extends AppCompatActivity {
             String lastdigit = scanContent.substring(scanContent.length()-1);
             String tableofdb = "codelist" + lastdigit;
             dataSourcebarcode.open();
-            if(dataSourcebarcode.CheckIsBarcodeInDBorNot(scanContent, tableofdb)){
+            if(dataSourcebarcode.CheckIsBarcodeInDBorNot(scanContent)){
                 // Ergebnis ist in Datenbank
                 // Ausgabe des Ergebnisses auf TextViews
-                String[] Params = dataSourcebarcode.getOneBarcode(scanContent, tableofdb);
+                String[] Params = dataSourcebarcode.getOneBarcode(scanContent);
                 editTextSeason.setText(Params[0]);
                 editTextStyle.setText(Params[1]);
                 editTextQuality.setText(Params[2]);
