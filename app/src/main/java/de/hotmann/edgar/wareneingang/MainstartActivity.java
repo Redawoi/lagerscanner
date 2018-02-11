@@ -30,6 +30,7 @@ public class MainstartActivity extends AppCompatActivity
     private BarcodeDataSource dataSource;
     private static final String LOG_TAG = MainstartActivity.class.getSimpleName();
     private Button optimieren;
+    private TextView textviewprozent;
     private ProgressBar progressBar;
     private int progressStatus = 0;
     private int z = 0;
@@ -40,31 +41,26 @@ public class MainstartActivity extends AppCompatActivity
         optimieren = (Button) findViewById(R.id.dboptimierung);
         progressBar = (ProgressBar) findViewById(R.id.determinateBar);
         optimieren.setVisibility(View.INVISIBLE);
+        textviewprozent = (TextView) findViewById(R.id.textView3);
         progressBar.setVisibility(View.VISIBLE);
         Log.d(LOG_TAG, "Entrance");
-
-
-
-
         dataSource = new BarcodeDataSource(this);
         dataSource.open();
         progressBar.setMax(dataSource.getmaxid());
         z = dataSource.getmaxid();
-
         dataSource.CreateSubtables();
-
         new Thread(new Runnable() {
             public void run() {
                 while (progressStatus < z) {
                     // Update the progress bar and display the
                     //current value in the text view
-                    progressStatus += 1;
-                    dataSource.DBOptimieren(progressStatus);
+                    progressStatus++;
+                    dataSource.transferiereEineLinie(progressStatus);
                     handler.post(new Runnable() {
                         public void run() {
 
                             progressBar.setProgress(progressStatus);
-
+                            textviewprozent.setText(progressStatus+"/"+z);
                         }
                     });
                     try {
@@ -74,6 +70,7 @@ public class MainstartActivity extends AppCompatActivity
                         e.printStackTrace();
                     }
                 }
+                textviewprozent.setText("JETZT DAS HIER");
             }
         }).start();
     }

@@ -96,59 +96,60 @@ public class BarcodeDataSource {
         return  result;
     }
 
-    public String[] getOneLine(int id) {
-        Log.d(LOG_TAG, "GetOneLine: Start");
-        String table = "codelist";
-        String[] result;
-        Cursor cursor = database.query(table, allcolumns, BarcodeDbHelper.COLUMN_ID + "=" + id, null, null, null, null, null);
-        cursor.moveToFirst();
-        Barcode barcode;
-        barcode = cursorToBarcode(cursor);
-        String ergebnis1 = barcode.getSeason();
-        String ergebnis2 = barcode.getStyle();
-        String ergebnis3 = barcode.getQuality();
-        String ergebnis4 = barcode.getLgd();
-        String ergebnis5 = barcode.getColour();
-        String ergebnis6 = barcode.getSize();
-        String ergebnis7 = barcode.getEanno();
-        String ergebnis8 = barcode.getItemname();
-        String ergebnis9 = barcode.getProductgroup();
-        result= new String[]{ergebnis1, ergebnis2, ergebnis3, ergebnis4, ergebnis5, ergebnis6,ergebnis7, ergebnis8, ergebnis9};
-        cursor.close();
-        return  result;
+    public void getOneLine(int id) {
+        //Log.d(LOG_TAG, "GetOneLine: Start");
+        /*String tablealt = "codelist";
+        Cursor cursor2 = database.query(tablealt, allcolumns, BarcodeDbHelper.COLUMN_ID + "=" + id, null, null, null, null, null);
+        cursor2.moveToNext();
+        Barcode barcodealt;
+        barcodealt = cursorToBarcode(cursor2);
+        transferiereEineLinie(barcodealt.getSeason(),
+                barcodealt.getStyle(),
+                barcodealt.getQuality(),
+                barcodealt.getLgd(),
+                barcodealt.getColour(),
+                barcodealt.getSize(),
+                barcodealt.getEanno(),
+                barcodealt.getItemname(),
+                barcodealt.getProductgroup());*/
+
+
     }
 
-    public Barcode transferiereEineLinie(String season, String style, String quality, String lgd, String colour, String size, String eanno, String itemname, String productgroup) {
+    public void transferiereEineLinie(int id) {
         open();
+        String tablealt = "codelist";
+        Cursor cursor2 = database.query(tablealt, allcolumns, BarcodeDbHelper.COLUMN_ID + "=" + id, null, null, null, null, null);
+        cursor2.moveToNext();
+        Barcode barcodealt;
+        barcodealt = cursorToBarcode(cursor2);
         ContentValues values = new ContentValues();
-        values.put(BarcodeDbHelper.COLUMN_SEASON, season);
-        Log.d(LOG_TAG, "[put]" + season);
-        values.put(BarcodeDbHelper.COLUMN_STYLE, style);
-        Log.d(LOG_TAG, "[put]" + style);
-        values.put(BarcodeDbHelper.COLUMN_QUALITY, quality);
-        Log.d(LOG_TAG, "[put]" + quality);
-        values.put(BarcodeDbHelper.COLUMN_LGD, lgd);
-        Log.d(LOG_TAG, "[put]" + lgd);
-        values.put(BarcodeDbHelper.COLUMN_COLOUR, colour);
-        Log.d(LOG_TAG, "[put]" + colour);
-        values.put(BarcodeDbHelper.COLUMN_SIZE, size);
-        Log.d(LOG_TAG, "[put]" + size);
-        values.put(BarcodeDbHelper.COLUMN_EANNO, eanno);
-        Log.d(LOG_TAG, "[put]" + eanno);
-        values.put(BarcodeDbHelper.COLUMN_ITEMNAME, itemname);
-        Log.d(LOG_TAG, "[put]" + itemname);
-        values.put(BarcodeDbHelper.COLUMN_PRODGROUP, productgroup);
-        Log.d(LOG_TAG, "[put]" + productgroup);
-
-        String table = "codelist" + eanno.substring(eanno.length() - 1);
-        Log.d(LOG_TAG, "[put to] " + table);
-        long insertId = database.insert(table,null,values);
-        Log.d(LOG_TAG, "[put to insertid]" + insertId);
-        Cursor cursor = database.query(table,allcolumns, EingangDbHelper.COLUMN_ID + "=" + insertId, null,null,null,null);
-        cursor.moveToFirst();
+        values.put(BarcodeDbHelper.COLUMN_SEASON, barcodealt.getSeason());
+        Log.d(LOG_TAG, "[put]" + barcodealt.getSeason());
+        values.put(BarcodeDbHelper.COLUMN_STYLE, barcodealt.getStyle());
+        Log.d(LOG_TAG, "[put]" + barcodealt.getStyle());
+        values.put(BarcodeDbHelper.COLUMN_QUALITY, barcodealt.getQuality());
+        Log.d(LOG_TAG, "[put]" + barcodealt.getQuality());
+        values.put(BarcodeDbHelper.COLUMN_LGD, barcodealt.getLgd());
+        Log.d(LOG_TAG, "[put]" + barcodealt.getLgd());
+        values.put(BarcodeDbHelper.COLUMN_COLOUR, barcodealt.getColour());
+        Log.d(LOG_TAG, "[put]" + barcodealt.getColour());
+        values.put(BarcodeDbHelper.COLUMN_SIZE, barcodealt.getSize());
+        Log.d(LOG_TAG, "[put]" + barcodealt.getSize());
+        values.put(BarcodeDbHelper.COLUMN_EANNO, barcodealt.getEanno());
+        Log.d(LOG_TAG, "[put]" + barcodealt.getEanno());
+        values.put(BarcodeDbHelper.COLUMN_ITEMNAME, "'"+barcodealt.getItemname()+"'");
+        Log.d(LOG_TAG, "[put]" + "'"+barcodealt.getItemname()+"'");
+        values.put(BarcodeDbHelper.COLUMN_PRODGROUP, barcodealt.getProductgroup());
+        String tableneu = "codelist" + barcodealt.getEanno().substring(barcodealt.getEanno().length() - 1);
+        Log.d(LOG_TAG, "[put to] " + tableneu);
+        long insertId = database.insert(tableneu,null,values);
+        //Log.d(LOG_TAG, "[put to insertid]" + insertId);
+        Cursor cursor = database.query(tableneu, allcolumns, BarcodeDbHelper.COLUMN_ID + "=" + insertId, null,null,null,null);
+        cursor.moveToNext();
         Barcode barcode = cursorToBarcode(cursor);
         cursor.close();
-        return barcode;
+        close();
     }
 
 
@@ -193,18 +194,7 @@ public class BarcodeDataSource {
     }
 
     public  void DBOptimieren(int p) {
-        Log.d(LOG_TAG, "int i = " + p);
-        String[] params = getOneLine(p);
-        Log.d(LOG_TAG, "[0]" + params[0]);
-        Log.d(LOG_TAG, "[1]" + params[1]);
-        Log.d(LOG_TAG, "[2]" + params[2]);
-        Log.d(LOG_TAG, "[3]" + params[3]);
-        Log.d(LOG_TAG, "[4]" + params[4]);
-        Log.d(LOG_TAG, "[5]" + params[5]);
-        Log.d(LOG_TAG, "[6]" + params[6]);
-        Log.d(LOG_TAG, "[7]" + params[7]);
-        Log.d(LOG_TAG, "[8]" + params[8]);
-        transferiereEineLinie(params[0],params[1],params[2],params[3],params[4],params[5],params[6],params[7],params[8]);
+        getOneLine(p);
     }
 
     public void CreateSubtables() {
