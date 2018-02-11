@@ -1,6 +1,7 @@
 package de.hotmann.edgar.wareneingang.Eingang;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
@@ -51,6 +52,7 @@ public class WareneingangPaletten extends AppCompatActivity {
     private GoogleApiClient client;
     public EditText palettentextfeld, editTextSeason, editTextStyle, editTextQuality, editTextColour, editTextSize, editTextLgd, editTextQuantity;
     public ListView eingangListView;
+    public long scanstartzeit;
     Button nextpalette, prevpalette;
 
 
@@ -132,19 +134,12 @@ public class WareneingangPaletten extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-        Log.d(LOG_TAG, "Die EingangDatenquelle wird geöffnet.");
         dataSource.open();
-
-        Log.d(LOG_TAG, "Folgende Einträge sind in der EingangDatenbank vorhanden:");
         showAllListEntries();
     }
     @Override
     protected void onPause() {
         super.onPause();
-
-
-        Log.d(LOG_TAG, "Die EingangDatenquelle wird geschlossen.");
         dataSource.close();
     }
     @Override
@@ -234,7 +229,6 @@ public class WareneingangPaletten extends AppCompatActivity {
                             if (isChecked) {
                                 int positionInListView = touchedEingangPositionen.keyAt(i);
                                 Eingangwosum eingang = (Eingangwosum) eingangListView.getItemAtPosition(positionInListView);
-                                Log.d(LOG_TAG, "Position im ListView: " + positionInListView + " Inhalt: " + eingang.toString());
                                 dataSource.deleteEingang(eingang);
                             }
                         }
@@ -242,14 +236,11 @@ public class WareneingangPaletten extends AppCompatActivity {
                         mode.finish();
                         break;
                     case R.id.cab_change:
-                        Log.d(LOG_TAG, "Eintrag ändern");
                         for (int i= 0; i < touchedEingangPositionen.size(); i++) {
                             boolean isChecked = touchedEingangPositionen.valueAt(i);
                             if (isChecked) {
                                 int positionInListView = touchedEingangPositionen.keyAt(i);
                                 Eingangwosum eingang = (Eingangwosum) eingangListView.getItemAtPosition(positionInListView);
-                                Log.d(LOG_TAG, "Position im ListView: " + positionInListView + " Inhalt: " + eingang.toString());
-
                                 AlertDialog editEingänge = createEditEingang(eingang);
                                 editEingänge.show();
                             }
@@ -277,9 +268,11 @@ public class WareneingangPaletten extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)){
+            scanstartzeit = System.currentTimeMillis();
             IntentIntegrator integrator = new IntentIntegrator(this);
-            integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
-            integrator.setPrompt("Fahre über einen Barcode\n" +
+            integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
+            integrator.setPrompt("Nur 1D Code\n" +
+                    "Fahre über einen Barcode\n" +
                     "Lautstärke (+)(–) für Taschenlampe an/aus");
             integrator.setOrientationLocked(true);
             integrator.initiateScan();
@@ -325,7 +318,8 @@ public class WareneingangPaletten extends AppCompatActivity {
     public void scanNow(View view) {
         IntentIntegrator integrator = new IntentIntegrator(this);
         integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
-        integrator.setPrompt("Fahre über einen Barcode\n" +
+        integrator.setPrompt("Alle Barcodearten\n" +
+                "Fahre über einen Barcode\n" +
                 "Lautstärke (+)(–) für Taschenlampe an/aus");
         integrator.setOrientationLocked(true);
         integrator.initiateScan();
@@ -533,10 +527,6 @@ public class WareneingangPaletten extends AppCompatActivity {
                         boolean countwith = newCountornot == 1;
                         // An dieser Stelle schreiben wir die geänderten Daten in die SQLite Datenbank
                         Eingangwosum updatedEingang = dataSource.updateEingang(eingang.getId(), palette, season, style, quality, colour, size, lgd, secondarychoice, countwith, quantity);
-
-                        Log.d(LOG_TAG, "Alter Eintrag - ID: " + eingang.getId() + " Inhalt: " + eingang.toString());
-                        Log.d(LOG_TAG, "Neuer Eintrag - ID: " + updatedEingang.getId() + " Inhalt: " + updatedEingang.toString());
-
                         showAllListEntries();
                         dialog.dismiss();
                     }
@@ -549,10 +539,9 @@ public class WareneingangPaletten extends AppCompatActivity {
         return builder.create();
     }
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        // Lese Ausgabe
-        Log.d(LOG_TAG, "Ein Eintrag enthielt keinen Text. Daher Abbruch der Änderung.");
         IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-
+        long scandauer = System.currentTimeMillis()-scanstartzeit;
+        long lesenstart = System.currentTimeMillis();
         if (scanningResult.getContents() != null) {
             // Ergebnis erhalten
             String scanContent = scanningResult.getContents();
@@ -591,6 +580,15 @@ public class WareneingangPaletten extends AppCompatActivity {
             Toast toast = Toast.makeText(getApplicationContext(), "Konnte keine Daten lesen", Toast.LENGTH_SHORT);
             toast.show();
         }
+        long zeit = System.currentTimeMillis()-lesenstart;
+        long gesamt = System.currentTimeMillis()-scanstartzeit;
+        Context context = getApplicationContext();
+        CharSequence text = "Abfrage wurde beendet nach " + zeit + " ms\n" +
+                "Scannen dauerte: "+ scandauer +" ms\n" +
+                "Gesamtlaufzeit: " + gesamt + " ms";
+        int duration = Toast.LENGTH_LONG;
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
     }
 
     View.OnClickListener palettemehr = new View.OnClickListener() {

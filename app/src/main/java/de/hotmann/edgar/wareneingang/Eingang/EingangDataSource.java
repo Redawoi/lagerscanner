@@ -258,7 +258,6 @@ public class EingangDataSource {
             int PalleteInt = Integer.parseInt(palette);
             if (eingang.getPalette()==PalleteInt) {
                 eingangList.add(eingang);
-                Log.d(LOG_TAG, "ID: " + eingang.getId() + ", Inhalt: " +eingang.toString());
             }
             cursor.moveToNext();
         }
@@ -280,7 +279,6 @@ public class EingangDataSource {
             eingang = cursorToEingangwosum(cursor);
             String style = eingang.getSeason();
             eingangList.add(style);
-            Log.d(LOG_TAG, "ID: " + eingang.getId() + ", Inhalt: " +eingang.toString());
             cursor.moveToNext();
         }
 
@@ -302,7 +300,6 @@ public class EingangDataSource {
             eingang = cursorToEingangwosum(cursor);
             String style = eingang.getStyle();
             eingangList.add(style);
-            Log.d(LOG_TAG, "ID: " + eingang.getId() + ", Inhalt: " +eingang.toString());
             cursor.moveToNext();
         }
 
@@ -323,7 +320,6 @@ public class EingangDataSource {
             eingang = cursorToEingangwosum(cursor);
             String style = eingang.getQuality();
             eingangList.add(style);
-            Log.d(LOG_TAG, "ID: " + eingang.getId() + ", Inhalt: " +eingang.toString());
             cursor.moveToNext();
         }
 
@@ -345,7 +341,6 @@ public class EingangDataSource {
             eingang = cursorToEingangwosum(cursor);
             String style = eingang.getColour();
             eingangList.add(style);
-            Log.d(LOG_TAG, "ID: " + eingang.getId() + ", Inhalt: " +eingang.toString());
             cursor.moveToNext();
         }
 
@@ -368,8 +363,6 @@ public class EingangDataSource {
 
 
     public String getEinEingang(String season, String style, String quality,  String colour, String size, boolean zweitwahl) {
-            Log.d(LOG_TAG, "Kommt raus? Main Activity3");
-
             String zweitwahlString = (zweitwahl)?"1":"0";
             Cursor cursor = database.query(EingangDbHelper.WARENEINGANG_TABLENAME, columns,
                     EingangDbHelper.COLUMN_SEASON + "=" + season + " AND " +
@@ -378,9 +371,7 @@ public class EingangDataSource {
                             EingangDbHelper.COLUMN_COLOUR + "=" + colour + " AND " +
                             EingangDbHelper.COLUMN_SIZE + "=" + size + " AND " +
                             EingangDbHelper.COLUMN_SECONDARYCHOICE + "=" + zweitwahlString, null, null, null, null, null);
-            Log.d(LOG_TAG, "Kommt raus? Main Activity4");
-
-            //Cursor cursor = database.query(BarcodeDbHelper.WARENEINGANG_TABLENAME, columns, null, null, null, null, null, null);
+              //Cursor cursor = database.query(BarcodeDbHelper.WARENEINGANG_TABLENAME, columns, null, null, null, null, null, null);
             cursor.moveToFirst();
             Eingang eingang;
             eingang = cursorToEingang(cursor);
@@ -391,16 +382,12 @@ public class EingangDataSource {
         }
 
     public String getEinEingangTotal(String season, String style, String quality,  String colour, String size) {
-        Log.d(LOG_TAG, "Kommt raus? Main Activity3");
-
         Cursor cursor = database.query(EingangDbHelper.WARENEINGANG_TABLENAME, columns,
                 EingangDbHelper.COLUMN_SEASON + "=" + season + " AND " +
                         EingangDbHelper.COLUMN_STYLE + "=" + style + " AND " +
                         EingangDbHelper.COLUMN_QUALITY + "=" + quality + " AND " +
                         EingangDbHelper.COLUMN_COLOUR + "=" + colour + " AND " +
                         EingangDbHelper.COLUMN_SIZE + "=" + size, null, null, null, null, null);
-        Log.d(LOG_TAG, "Kommt raus? Main Activity4");
-
         //Cursor cursor = database.query(BarcodeDbHelper.WARENEINGANG_TABLENAME, columns, null, null, null, null, null, null);
         cursor.moveToFirst();
         Eingang eingang;
@@ -412,8 +399,6 @@ public class EingangDataSource {
     }
 
     public String getTotalofOneEingangFirstOrSecChoice(String season, String style, String quality,  String colour, boolean zweitwahl) {
-        Log.d(LOG_TAG, "Kommt raus? Main Activity3");
-
         String zweitwahlString = (zweitwahl)?"1":"0";
         Cursor cursor = database.query(EingangDbHelper.WARENEINGANG_TABLENAME, columns,
                 EingangDbHelper.COLUMN_SEASON + "=" + season + " AND " +
@@ -421,8 +406,6 @@ public class EingangDataSource {
                         EingangDbHelper.COLUMN_QUALITY + "=" + quality + " AND " +
                         EingangDbHelper.COLUMN_COLOUR + "=" + colour + " AND " +
                         EingangDbHelper.COLUMN_SECONDARYCHOICE + "=" + zweitwahlString, null, null, null, null, null);
-        Log.d(LOG_TAG, "Kommt raus? Main Activity4");
-
         //Cursor cursor = database.query(BarcodeDbHelper.WARENEINGANG_TABLENAME, columns, null, null, null, null, null, null);
         cursor.moveToFirst();
         Eingang eingang;
@@ -434,16 +417,11 @@ public class EingangDataSource {
     }
 
     public String getTotalofOneEingang(String season, String style, String quality,  String colour) {
-        Log.d(LOG_TAG, "Kommt raus? Main Activity3");
-
-
         Cursor cursor = database.query(EingangDbHelper.WARENEINGANG_TABLENAME, columns,
                 EingangDbHelper.COLUMN_SEASON + "=" + season + " AND " +
                         EingangDbHelper.COLUMN_STYLE + "=" + style + " AND " +
                         EingangDbHelper.COLUMN_QUALITY + "=" + quality + " AND " +
                         EingangDbHelper.COLUMN_COLOUR + "=" + colour, null, null, null, null, null);
-        Log.d(LOG_TAG, "Kommt raus? Main Activity4");
-
         //Cursor cursor = database.query(BarcodeDbHelper.WARENEINGANG_TABLENAME, columns, null, null, null, null, null, null);
         cursor.moveToFirst();
         Eingang eingang;
@@ -455,19 +433,15 @@ public class EingangDataSource {
     }
 
     public EingangDataSource(Context context) {
-        Log.d(LOG_TAG, "Unsere DataSource erzeugt jetzt den dbHelper.");
         dbHelper = new EingangDbHelper(context);
     }
 
     public void open() {
-        Log.d(LOG_TAG, "Eine Referenz auf die Datenbank wird jetzt angefragt.");
         database = dbHelper.getWritableDatabase();
-        Log.d(LOG_TAG, "Datenbank-Referenz erhalten. Pfad zur Datenbank: " + database.getPath());
     }
 
     public void close() {
         dbHelper.close();
-        Log.d(LOG_TAG, "Datenbank mit Hilfe des DbHelpers geschlossen.");
     }
 
     public void deleteEingang(Eingangwosum eingang) {
@@ -476,17 +450,12 @@ public class EingangDataSource {
         database.delete(EingangDbHelper.WARENEINGANG_TABLENAME,
                         EingangDbHelper.COLUMN_ID + "=" +id,
                         null);
-        Log.d(LOG_TAG, "Eintrag gelöscht! ID: " + id + " Inhalt: " + eingang.toString());
     }
 
 
     public String getlastpalette() {
-        Log.d(LOG_TAG, "Kommt raus? Main Activity3");
-
         open();
         Cursor cursor = database.query(EingangDbHelper.WARENEINGANG_TABLENAME, columns,null, null, null, null, null);
-        Log.d(LOG_TAG, "Kommt raus? Main Activity4");
-
         //Cursor cursor = database.query(BarcodeDbHelper.WARENEINGANG_TABLENAME, columns, null, null, null, null, null, null);
         cursor.moveToLast();
         Eingang eingang;

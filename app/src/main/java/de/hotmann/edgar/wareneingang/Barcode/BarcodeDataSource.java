@@ -30,7 +30,6 @@ public class BarcodeDataSource {
             BarcodeDbHelper.COLUMN_COLOUR,
             BarcodeDbHelper.COLUMN_SIZE,
             BarcodeDbHelper.COLUMN_EANNO,
-            BarcodeDbHelper.COLUMN_ITEMNAME,
     };
 
     private String[] allcolumns = {
@@ -72,16 +71,17 @@ public class BarcodeDataSource {
         String itemname = cursor.getString(idItemname);
         String productgroup = cursor.getString(idProductgroup);
         long id = cursor.getLong(idIndex);
-        return new Barcode(season, style, quality, lgd, colour, size, eanno,itemname,id, productgroup);
+        Barcode barcode = new Barcode(season, style, quality, lgd, colour, size, eanno,itemname,id, productgroup);
+        return barcode;
     }
 
     public String[] getOneBarcode(String eannoparam) {
-        Log.d(LOG_TAG, "Kommt raus? Main Activity3");
         String table = "codelist";
+        open();
         if(CheckforFastDB()) table = "codelist" + eannoparam.substring(eannoparam.length() - 1);
             String[] result;
-            Cursor cursor = database.query(table, columns, BarcodeDbHelper.COLUMN_EANNO + "=" + eannoparam, null, null, null, null, null);
-                    cursor.moveToFirst();
+            Cursor cursor = database.query(table, allcolumns, BarcodeDbHelper.COLUMN_EANNO + "=" + eannoparam, null, null, null, null, null);
+            cursor.moveToNext();;
                     Barcode barcode;
                     barcode = cursorToBarcode(cursor);
                     String ergebnis1 = barcode.getSeason();
@@ -125,24 +125,15 @@ public class BarcodeDataSource {
         barcodealt = cursorToBarcode(cursor2);
         ContentValues values = new ContentValues();
         values.put(BarcodeDbHelper.COLUMN_SEASON, barcodealt.getSeason());
-        Log.d(LOG_TAG, "[put]" + barcodealt.getSeason());
         values.put(BarcodeDbHelper.COLUMN_STYLE, barcodealt.getStyle());
-        Log.d(LOG_TAG, "[put]" + barcodealt.getStyle());
         values.put(BarcodeDbHelper.COLUMN_QUALITY, barcodealt.getQuality());
-        Log.d(LOG_TAG, "[put]" + barcodealt.getQuality());
         values.put(BarcodeDbHelper.COLUMN_LGD, barcodealt.getLgd());
-        Log.d(LOG_TAG, "[put]" + barcodealt.getLgd());
         values.put(BarcodeDbHelper.COLUMN_COLOUR, barcodealt.getColour());
-        Log.d(LOG_TAG, "[put]" + barcodealt.getColour());
         values.put(BarcodeDbHelper.COLUMN_SIZE, barcodealt.getSize());
-        Log.d(LOG_TAG, "[put]" + barcodealt.getSize());
         values.put(BarcodeDbHelper.COLUMN_EANNO, barcodealt.getEanno());
-        Log.d(LOG_TAG, "[put]" + barcodealt.getEanno());
         values.put(BarcodeDbHelper.COLUMN_ITEMNAME, "'"+barcodealt.getItemname()+"'");
-        Log.d(LOG_TAG, "[put]" + "'"+barcodealt.getItemname()+"'");
         values.put(BarcodeDbHelper.COLUMN_PRODGROUP, barcodealt.getProductgroup());
         String tableneu = "codelist" + barcodealt.getEanno().substring(barcodealt.getEanno().length() - 1);
-        Log.d(LOG_TAG, "[put to] " + tableneu);
         long insertId = database.insert(tableneu,null,values);
         //Log.d(LOG_TAG, "[put to insertid]" + insertId);
         Cursor cursor = database.query(tableneu, allcolumns, BarcodeDbHelper.COLUMN_ID + "=" + insertId, null,null,null,null);
@@ -199,37 +190,25 @@ public class BarcodeDataSource {
 
     public void CreateSubtables() {
         database = dbHelper.getWritableDatabase();
-        Log.d(LOG_TAG, "Eine Referenz auf die Datenbank wird jetzt angefragt.");
         int i=0;
-        Log.d(LOG_TAG, "Subtables  Start");
-        Log.d(LOG_TAG, "I= " +i);
         while (i<=9) {
-            Log.d(LOG_TAG, "Schleife " + i + " Start");
             String Query1 = "DROP TABLE IF EXISTS codelist" + i;
             database.execSQL(Query1);
-            Log.d(LOG_TAG, "Schleife " + i + " Drop");
             String Query2 = "CREATE TABLE codelist" + i + " ( _id INTEGER PRIMARY KEY AUTOINCREMENT, season TEXT NOT NULL, style TEXT NOT NULL, quality TEXT NOT NULL, lgd TEXT NOT NULL, colour TEXT NOT NULL, size TEXT NOT NULL, eanno TEXT NOT NULL, itemname TEXT NOT NULL, productgroup TEXT )";
             database.execSQL(Query2);
-            Log.d(LOG_TAG, "Schleife " + i + " Create");
-            Log.d(LOG_TAG, "Schleife " + i + " Ende");
-            i++;
         }
         Log.d(LOG_TAG, "Subtables  Ende");
     }
 
     public BarcodeDataSource(Context context) {
-        Log.d(LOG_TAG, "Unsere DataSource erzeugt jetzt den dbHelper.");
         dbHelper = new BarcodeDbHelper(context);
     }
 
     public void open() {
-        Log.d(LOG_TAG, "Eine Referenz auf die Datenbank wird jetzt angefragt.");
         database = dbHelper.getWritableDatabase();
-        Log.d(LOG_TAG, "Datenbank-Referenz erhalten. Pfad zur Datenbank: " + database.getPath());
     }
 
     public void close() {
         dbHelper.close();
-        Log.d(LOG_TAG, "Datenbank mit Hilfe des DbHelpers geschlossen.");
     }
 }

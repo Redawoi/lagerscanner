@@ -93,7 +93,7 @@ public class MainstartActivity extends AppCompatActivity
         progressBar.setVisibility(View.VISIBLE);
         if(CheckforFastDB()) {
             optimieren.setVisibility(View.INVISIBLE);
-            progressBar.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.INVISIBLE);
             textview3.setText("Die Datenbank ist optimiert.");
 
         }
