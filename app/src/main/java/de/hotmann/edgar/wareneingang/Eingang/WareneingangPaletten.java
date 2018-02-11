@@ -316,6 +316,7 @@ public class WareneingangPaletten extends AppCompatActivity {
     }
 
     public void scanNow(View view) {
+        scanstartzeit = System.currentTimeMillis();
         IntentIntegrator integrator = new IntentIntegrator(this);
         integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
         integrator.setPrompt("Alle Barcodearten\n" +
@@ -526,7 +527,7 @@ public class WareneingangPaletten extends AppCompatActivity {
                         boolean secondarychoice = newSecondary == 1;
                         boolean countwith = newCountornot == 1;
                         // An dieser Stelle schreiben wir die geänderten Daten in die SQLite Datenbank
-                        Eingangwosum updatedEingang = dataSource.updateEingang(eingang.getId(), palette, season, style, quality, colour, size, lgd, secondarychoice, countwith, quantity);
+                        dataSource.updateEingang(eingang.getId(), palette, season, style, quality, colour, size, lgd, secondarychoice, countwith, quantity);
                         showAllListEntries();
                         dialog.dismiss();
                     }

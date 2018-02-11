@@ -1,7 +1,4 @@
 package de.hotmann.edgar.wareneingang.Eingang;
-
-import java.util.Objects;
-
 public class Eingangwosum {
 
     private int palette;
@@ -87,12 +84,8 @@ public class Eingangwosum {
         this.size = size;
     }
 
-    public String getLgd() {
+    String getLgd() {
         return lgd;
-    }
-
-    public void setLgd(String lgd) {
-        this.lgd = lgd;
     }
 
     int getQuantity() {
@@ -164,14 +157,19 @@ public class Eingangwosum {
     public String toString() {
         //String output = "Palette: " + palette + " " + season + " " + style + "-" + quality + " Fb. " + colour + " Gr. " + size + " x " + quantsum;
         String lengthcode;
-        if(lgd.equals("0")) {
-            lengthcode = "";
-        }else if(lgd.equals("1")){
-            lengthcode="K";
-        }else if(lgd.equals("2")){
-            lengthcode="L";
-        }else {
-            lengthcode="FEHLER";
+        switch (lgd) {
+            case "0":
+                lengthcode = "";
+                break;
+            case "1":
+                lengthcode = "K";
+                break;
+            case "2":
+                lengthcode = "L";
+                break;
+            default:
+                lengthcode = "FEHLER";
+                break;
         }
         return day + "." + month + "." + year + " S." + season + " " + style + " " + quality + " Fb. " + colour + " Gr. " + size + lengthcode + " x " + quantity + zweitewahlchecker();
     }

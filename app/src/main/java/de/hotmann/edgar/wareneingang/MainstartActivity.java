@@ -21,15 +21,11 @@ import de.hotmann.edgar.wareneingang.Barcode.BarcodeDataSource;
 import de.hotmann.edgar.wareneingang.Eingang.WareneingangPaletten;
 import de.hotmann.edgar.wareneingang.Lagerorte.LocationsActivity;
 
-import static android.os.SystemClock.sleep;
-
-
 public class MainstartActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private BarcodeDataSource dataSource;
     private static final String LOG_TAG = MainstartActivity.class.getSimpleName();
-    private Button optimieren;
     private TextView textviewprozent;
     private ProgressBar progressBar;
     private int progressStatus = 0;
@@ -38,8 +34,9 @@ public class MainstartActivity extends AppCompatActivity
 
 
     public void doUpdate () {
-        optimieren = (Button) findViewById(R.id.dboptimierung);
+        Button optimieren = (Button) findViewById(R.id.dboptimierung);
         progressBar = (ProgressBar) findViewById(R.id.determinateBar);
+        assert optimieren != null;
         optimieren.setVisibility(View.INVISIBLE);
         textviewprozent = (TextView) findViewById(R.id.textView3);
         progressBar.setVisibility(View.VISIBLE);
@@ -50,6 +47,7 @@ public class MainstartActivity extends AppCompatActivity
         z = dataSource.getmaxid();
         dataSource.CreateSubtables();
         new Thread(new Runnable() {
+            @SuppressLint("SetTextI18n")
             public void run() {
                 while (progressStatus < z) {
                     // Update the progress bar and display the
@@ -76,6 +74,7 @@ public class MainstartActivity extends AppCompatActivity
     }
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +102,7 @@ public class MainstartActivity extends AppCompatActivity
 
 
         optimieren.setOnClickListener(new View.OnClickListener(){
+            @SuppressLint("SetTextI18n")
             public void onClick(View v) {
                 doUpdate();
                 textview3.setText("Fertig");
