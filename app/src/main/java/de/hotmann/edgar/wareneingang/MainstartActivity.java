@@ -3,28 +3,80 @@ package de.hotmann.edgar.wareneingang;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import de.hotmann.edgar.wareneingang.Barcode.BarcodeDataSource;
 import de.hotmann.edgar.wareneingang.Eingang.WareneingangPaletten;
 import de.hotmann.edgar.wareneingang.Lagerorte.LocationsActivity;
+
+import static android.os.SystemClock.sleep;
 
 
 public class MainstartActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private BarcodeDataSource dataSource;
+    private static final String LOG_TAG = MainstartActivity.class.getSimpleName();
+    private Button optimieren;
+    private ProgressBar progressBar;
+    private int progressStatus = 0;
+    private int z = 0;
+    private Handler handler = new Handler();
 
 
+    public void doUpdate () {
+        optimieren = (Button) findViewById(R.id.dboptimierung);
+        progressBar = (ProgressBar) findViewById(R.id.determinateBar);
+        optimieren.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+        Log.d(LOG_TAG, "Entrance");
+
+
+
+
+        dataSource = new BarcodeDataSource(this);
+        dataSource.open();
+        progressBar.setMax(dataSource.getmaxid());
+        z = dataSource.getmaxid();
+
+        dataSource.CreateSubtables();
+
+        new Thread(new Runnable() {
+            public void run() {
+                while (progressStatus < z) {
+                    // Update the progress bar and display the
+                    //current value in the text view
+                    progressStatus += 1;
+                    dataSource.DBOptimieren(progressStatus);
+                    handler.post(new Runnable() {
+                        public void run() {
+
+                            progressBar.setProgress(progressStatus);
+
+                        }
+                    });
+                    try {
+                        // Sleep for 200 milliseconds.
+                        Thread.sleep(0);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+    }
 
 
     @Override
@@ -35,10 +87,16 @@ public class MainstartActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         final Button optimieren = (Button) findViewById(R.id.dboptimierung);
         final TextView textview3 = (TextView) findViewById(R.id.textView3);
+        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.determinateBar);
+        assert textview3 != null;
         textview3.setText("Die Datenbank ist langsam.");
+        assert optimieren != null;
         optimieren.setVisibility(View.VISIBLE);
+        assert progressBar != null;
+        progressBar.setVisibility(View.VISIBLE);
         if(CheckforFastDB()) {
             optimieren.setVisibility(View.INVISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
             textview3.setText("Die Datenbank ist optimiert.");
 
         }
@@ -49,7 +107,6 @@ public class MainstartActivity extends AppCompatActivity
 
         optimieren.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
-                final TextView textview3 = (TextView) findViewById(R.id.textView3);
                 doUpdate();
                 textview3.setText("Fertig");
             }
@@ -70,6 +127,8 @@ public class MainstartActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
     }
+
+
 
     @Override
     public void onBackPressed() {
@@ -134,10 +193,6 @@ public class MainstartActivity extends AppCompatActivity
         }
         return true;
     }
-
-
-
-
     public boolean CheckforFastDB () {
         dataSource = new BarcodeDataSource(this);
         dataSource.open();
@@ -149,12 +204,4 @@ public class MainstartActivity extends AppCompatActivity
             return false;
         }
     }
-
-    public void doUpdate () {
-        dataSource = new BarcodeDataSource(this);
-        dataSource.open();
-        dataSource.DBOptimieren();
-        dataSource.close();
-    }
-
 }

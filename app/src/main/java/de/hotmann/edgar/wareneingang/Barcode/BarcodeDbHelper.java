@@ -29,6 +29,8 @@ public class BarcodeDbHelper extends SQLiteOpenHelper{
     public static final String COLUMN_SIZE = "size";
     public static final String COLUMN_EANNO = "eanno";
     public static final String COLUMN_ITEMNAME = "itemname";
+    public static final String COLUMN_PRODGROUP = "productgroup";
+    public static final String COLUMN_MAXID = "MAX(_id)";
 
     public static final String SQL_CREATE =
             "CREATE TABLE " + WARENEINGANG_TABLENAME +
@@ -40,7 +42,8 @@ public class BarcodeDbHelper extends SQLiteOpenHelper{
                     COLUMN_COLOUR + " TEXT NOT NULL, " +
                     COLUMN_SIZE + " TEXT NOT NULL, " +
                     COLUMN_EANNO + " TEXT NOT NULL, " +
-                    COLUMN_ITEMNAME + " TEXT NOT NULL, ";
+                    COLUMN_ITEMNAME + " TEXT NOT NULL, " +
+                    COLUMN_PRODGROUP + "TEXT";
 
     public BarcodeDbHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
