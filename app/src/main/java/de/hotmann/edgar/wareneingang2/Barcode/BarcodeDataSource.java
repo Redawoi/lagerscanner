@@ -136,7 +136,6 @@ public class BarcodeDataSource {
     public ArrayList<Barcode> getAllBarcodesForSubTable(int subtable) {
         ArrayList<Barcode> barcodeList = new ArrayList<>();
         open();
-
         Cursor cursor = database.query(BarcodeDbHelper.WARENEINGANG_TABLENAME, allcolumns, "substr(eanno, -1) = '" + subtable +"'", null, null ,null, null);
         cursor.moveToFirst();
         Barcode barcode;
@@ -146,7 +145,8 @@ public class BarcodeDataSource {
             cursor.moveToNext();
         }
         cursor.close();
-        close();
+        String s = barcodeList.get(1).getColour();
+        Log.d(LOG_TAG, "-Test colour " + s);
         return barcodeList;
     }
 
@@ -154,6 +154,7 @@ public class BarcodeDataSource {
         Log.d(LOG_TAG, "-Start transferiere " + id);
         int a = getrowcount(id);
         Log.d(LOG_TAG, "-Ergebnis " + a);
+        getAllBarcodesForSubTable(id);
 
 
         //getAllBarcodesForSubTable(id);
@@ -190,15 +191,13 @@ public class BarcodeDataSource {
     private BarcodeMaxId cursorToBarcodeMaxId(Cursor cursor){
         int idIndex = cursor.getColumnIndex(BarcodeDbHelper.COLUMN_MAXID);
         int id= cursor.getInt(idIndex);
-        BarcodeMaxId maxcode = new BarcodeMaxId(id);
-        return maxcode;
+        return new BarcodeMaxId(id);
     }
 
     private BarcodeCountRow cursorToBarcodeCountRow(Cursor cursor){
         int idIndex = cursor.getColumnIndex(BarcodeDbHelper.COLUMN_COUNTROW);
         int id= cursor.getInt(idIndex);
-        BarcodeCountRow count = new BarcodeCountRow(id);
-        return count;
+        return new BarcodeCountRow(id);
     }
 
     public int getrowcount(int subtable) {
