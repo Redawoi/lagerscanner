@@ -1,4 +1,4 @@
-package de.hotmann.edgar.wareneingang.Lagerorte;
+package de.hotmann.edgar.wareneingang2.Lagerorte;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,9 +24,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import de.hotmann.edgar.wareneingang.Barcode.BarcodeDataSource;
-import de.hotmann.edgar.wareneingang.Eingang.WareneingangPaletten;
-import de.hotmann.edgar.wareneingang.R;
+import de.hotmann.edgar.wareneingang2.Barcode.BarcodeDataSource;
+import de.hotmann.edgar.wareneingang2.Eingang.WareneingangPaletten;
+import de.hotmann.edgar.wareneingang2.R;
 
 public class LocationsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

@@ -1,18 +1,12 @@
-package de.hotmann.edgar.wareneingang.Barcode;
+package de.hotmann.edgar.wareneingang2.Barcode;
 
 import android.content.ContentValues;
 import android.content.Context;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
-import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-
-import de.hotmann.edgar.wareneingang.Eingang.EingangDbHelper;
-import de.hotmann.edgar.wareneingang.MainstartActivity;
-import de.hotmann.edgar.wareneingang.R;
 
 public class BarcodeDataSource {
 
@@ -115,7 +109,19 @@ public class BarcodeDataSource {
 
 
     }
+    /*
+    public void doOptimal() {
+        database.beginTransaction();
+        try {
+            SQLiteStatement insert =
 
+        } finally {
+            database.endTransaction();
+        }
+
+    }
+
+    */
     public void transferiereEineLinie(int id) {
         open();
         String tablealt = "codelist";
@@ -189,13 +195,17 @@ public class BarcodeDataSource {
     }
 
     public void CreateSubtables() {
+        Log.d(LOG_TAG, "Subtables  Start");
         database = dbHelper.getWritableDatabase();
         int i=0;
         while (i<=9) {
             String Query1 = "DROP TABLE IF EXISTS codelist" + i;
+            Log.d(LOG_TAG, "Subtables  Ende" + "DROP TABLE IF EXISTS codelist" + i);
             database.execSQL(Query1);
+            Log.d(LOG_TAG, "Subtables  Ende" + "CREATE TABLE codelist" + i);
             String Query2 = "CREATE TABLE codelist" + i + " ( _id INTEGER PRIMARY KEY AUTOINCREMENT, season TEXT NOT NULL, style TEXT NOT NULL, quality TEXT NOT NULL, lgd TEXT NOT NULL, colour TEXT NOT NULL, size TEXT NOT NULL, eanno TEXT NOT NULL, itemname TEXT NOT NULL, productgroup TEXT )";
             database.execSQL(Query2);
+            i++;
         }
         Log.d(LOG_TAG, "Subtables  Ende");
     }

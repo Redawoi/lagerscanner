@@ -1,4 +1,4 @@
-package de.hotmann.edgar.wareneingang;
+package de.hotmann.edgar.wareneingang2;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -17,9 +17,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import de.hotmann.edgar.wareneingang.Barcode.BarcodeDataSource;
-import de.hotmann.edgar.wareneingang.Eingang.WareneingangPaletten;
-import de.hotmann.edgar.wareneingang.Lagerorte.LocationsActivity;
+import de.hotmann.edgar.wareneingang2.Barcode.BarcodeDataSource;
+import de.hotmann.edgar.wareneingang2.Eingang.WareneingangPaletten;
+import de.hotmann.edgar.wareneingang2.Lagerorte.LocationsActivity;
 
 public class MainstartActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

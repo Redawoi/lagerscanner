@@ -1,4 +1,4 @@
-package de.hotmann.edgar.wareneingang.Eingang;
+package de.hotmann.edgar.wareneingang2.Eingang;
 
 /**
  * Created by edgar on 25.05.2016.

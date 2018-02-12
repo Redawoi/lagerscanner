@@ -4,7 +4,7 @@ android {
     flavorDimensions "versionCode"
     signingConfigs {
         config {
-            keyAlias 'Wareneingang'
+            keyAlias 'wareneingangkey'
             keyPassword 'aladin92'
             storeFile file('D:/Android/Keystore/Wareneingang.jks')
             storePassword 'aladin92'
@@ -13,7 +13,7 @@ android {
     compileSdkVersion 23
     buildToolsVersion '26.0.2'
     defaultConfig {
-        applicationId "de.hotmann.edgar.wareneingang"
+        applicationId "de.hotmann.edgar.wareneingang2"
         minSdkVersion 16
         targetSdkVersion 17
         versionCode 1

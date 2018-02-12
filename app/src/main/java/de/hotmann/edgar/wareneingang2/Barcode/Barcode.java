@@ -1,4 +1,4 @@
-package de.hotmann.edgar.wareneingang.Barcode;
+package de.hotmann.edgar.wareneingang2.Barcode;
 
 public class Barcode {
 

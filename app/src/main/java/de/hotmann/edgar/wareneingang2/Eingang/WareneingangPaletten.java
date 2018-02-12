@@ -1,4 +1,4 @@
-package de.hotmann.edgar.wareneingang.Eingang;
+package de.hotmann.edgar.wareneingang2.Eingang;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -36,10 +36,10 @@ import android.view.ActionMode;
 import android.widget.AbsListView;
 import android.widget.ToggleButton;
 
-import de.hotmann.edgar.wareneingang.Barcode.BarcodeDataSource;
-import de.hotmann.edgar.wareneingang.MainstartActivity;
-import de.hotmann.edgar.wareneingang.R;
-import de.hotmann.edgar.wareneingang.Eingang.Auswertung.TableViewActivity;
+import de.hotmann.edgar.wareneingang2.Barcode.BarcodeDataSource;
+import de.hotmann.edgar.wareneingang2.MainstartActivity;
+import de.hotmann.edgar.wareneingang2.R;
+import de.hotmann.edgar.wareneingang2.Eingang.Auswertung.TableViewActivity;
 
 import static android.text.TextUtils.isEmpty;
 
@@ -107,7 +107,7 @@ public class WareneingangPaletten extends AppCompatActivity {
                 // Otherwise, set the URL to null.
                 Uri.parse("http://host/path"),
                 // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://de.hotmann.edgar.wareneingang/http/host/path")
+                Uri.parse("android-app://de.hotmann.edgar.wareneingang2/http/host/path")
         );
         AppIndex.AppIndexApi.start(client, viewAction);
     }
@@ -125,7 +125,7 @@ public class WareneingangPaletten extends AppCompatActivity {
                 // Otherwise, set the URL to null.
                 Uri.parse("http://host/path"),
                 // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://de.hotmann.edgar.wareneingang/http/host/path")
+                Uri.parse("android-app://de.hotmann.edgar.wareneingang2/http/host/path")
         );
         AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();

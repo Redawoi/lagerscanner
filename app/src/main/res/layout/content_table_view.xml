@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="de.hotmann.edgar.wareneingang.Eingang.Auswertung.TableViewActivity"
+    tools:context="de.hotmann.edgar.wareneingang2.Eingang.Auswertung.TableViewActivity"
     tools:showIn="@layout/activity_table_view">
 
 </RelativeLayout>

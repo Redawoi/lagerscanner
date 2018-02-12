@@ -1,4 +1,4 @@
-package de.hotmann.edgar.wareneingang.Eingang;
+package de.hotmann.edgar.wareneingang2.Eingang;
 
 /**
  * Created by edgar on 25.05.2016.
@@ -11,9 +11,8 @@ import java.util.List;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
-import de.hotmann.edgar.wareneingang.Barcode.BarcodeDbHelper;
+import de.hotmann.edgar.wareneingang2.Barcode.BarcodeDbHelper;
 
 public class EingangDataSource {
 

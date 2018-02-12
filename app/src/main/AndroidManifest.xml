@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="de.hotmann.edgar.wareneingang">
+    package="de.hotmann.edgar.wareneingang2">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -13,23 +13,23 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
         <activity
-            android:name=".Eingang.WareneingangPaletten"
+            android:name="de.hotmann.edgar.wareneingang2.Eingang.WareneingangPaletten"
             android:configChanges="screenSize"
-            android:parentActivityName=".MainstartActivity" />
+            android:parentActivityName="de.hotmann.edgar.wareneingang2.MainstartActivity" />
         <activity
-            android:name=".Eingang.Auswertung.TableViewActivity"
+            android:name="de.hotmann.edgar.wareneingang2.Eingang.Auswertung.TableViewActivity"
             android:label="@string/title_activity_table_view"
-            android:parentActivityName=".MainstartActivity">
+            android:parentActivityName="de.hotmann.edgar.wareneingang2.MainstartActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="de.hotmann.edgar.wareneingang.Eingang.WareneingangPaletten" />
+                android:value="de.hotmann.edgar.wareneingang2.Eingang.WareneingangPaletten" />
         </activity>
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="fullSensor"
             tools:replace="screenOrientation" />
         <activity
-            android:name=".MainstartActivity"
+            android:name="de.hotmann.edgar.wareneingang2.MainstartActivity"
             android:label="@string/title_activity_mainstart"
             android:theme="@style/NoActionBar">
             <intent-filter>
@@ -47,13 +47,13 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".Lagerorte.LocationsActivity"
+            android:name="de.hotmann.edgar.wareneingang2.Lagerorte.LocationsActivity"
             android:label="@string/title_activity_locations"
-            android:parentActivityName=".MainstartActivity"
+            android:parentActivityName="de.hotmann.edgar.wareneingang2.MainstartActivity"
             android:theme="@style/NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="de.hotmann.edgar.wareneingang.MainstartActivity" />
+                android:value="de.hotmann.edgar.wareneingang2.MainstartActivity" />
         </activity>
     </application>
 

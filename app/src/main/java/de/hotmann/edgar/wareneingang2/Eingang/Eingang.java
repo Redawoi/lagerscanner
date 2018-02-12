@@ -1,30 +1,33 @@
-package de.hotmann.edgar.wareneingang.Eingang;
-public class Eingangwosum {
+package de.hotmann.edgar.wareneingang2.Eingang;
+
+/**
+ * Created by edgar on 25.05.2016.
+ */
+public class Eingang {
 
     private int palette;
     private String season, style, quality, colour, size,lgd;
-    private int quantity;
-    private int day;
-    private int month;
-    private int year;
+    private int quantity, quantsum, day, month, year, week;
     private boolean secondarychoice;
     private boolean counttopallet;
     private long id;
 
-    Eingangwosum(int palette,
-                 String season,
-                 String style,
-                 String quality,
-                 String colour,
-                 String size,
-                 String lgd,
-                 int quantity,
-                 boolean secondarychoice,
-                 boolean counttopallet,
-                 int day,
-                 int month,
-                 int year,
-                 long id) {
+    public Eingang(int palette,
+                   String season,
+                   String style,
+                   String quality,
+                   String colour,
+                   String size,
+                   String lgd,
+                   int quantity,
+                   int quantsum,
+                   boolean secondarychoice,
+                   boolean counttopallet,
+                   int day,
+                   int month,
+                   int year,
+                   int week,
+                   long id) {
         this.palette = palette;
         this.season = season;
         this.style = style;
@@ -33,16 +36,18 @@ public class Eingangwosum {
         this.size = size;
         this.lgd = lgd;
         this.quantity = quantity;
+        this.quantsum = quantsum;
         this.secondarychoice = secondarychoice;
         this.counttopallet = counttopallet;
         this.day = day;
         this.month = month;
         this.year = year;
+        this.week = week;
         this.id = id;
     }
 
-    int getPalette() {return palette;}
-    // public void setPalette(int palette) {this.palette=palette;}
+    public int getPalette() {return palette;}
+    public void setPalette(int palette) {this.palette=palette;}
 
     public String getSeason() {
         return season;
@@ -84,17 +89,17 @@ public class Eingangwosum {
         this.size = size;
     }
 
-    String getLgd() {
+    public String getLgd() {
         return lgd;
     }
 
-    int getQuantity() {
-        return quantity;
+    public void setLgd(String lgd) {
+        this.lgd = lgd;
     }
 
-    /*
-
-
+    public int getQuantity() {
+        return quantity;
+    }
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
@@ -124,16 +129,15 @@ public class Eingangwosum {
         this.week = week;
     }
 
+    public int getQuantsum() { return quantsum; }
 
-    */
+    public boolean getSecondarychoice() { return secondarychoice; }
 
-    boolean getSecondarychoice() { return secondarychoice; }
+    public void setSecondarychoice(boolean secondarychoice) { this.secondarychoice = secondarychoice; }
 
-    // public void setSecondarychoice(boolean secondarychoice) { this.secondarychoice = secondarychoice; }
+    public boolean getCounttoPallet() { return counttopallet;}
 
-    boolean getCounttoPallet() { return counttopallet;}
-
-    // public void setCounttopallet(boolean counttopallet) { this.counttopallet = counttopallet; }
+    public void setCounttopallet(boolean counttopallet) { this.counttopallet = counttopallet; }
 
     public long getId() {
         return id;
@@ -143,34 +147,11 @@ public class Eingangwosum {
         this.id = id;
     }
 
-    private String zweitewahlchecker() {
-        String ergebnis;
-        if(getSecondarychoice()) {
-            ergebnis=" II.W";
-        }else{
-            ergebnis="";
-        }
-        return ergebnis;
-    }
-
     @Override
     public String toString() {
+       String output = day + "." + month + "." + year + " S." + season + " " + style + " " + quality + " Fb. " + colour + " Gr. " + size + " x " + quantity;
         //String output = "Palette: " + palette + " " + season + " " + style + "-" + quality + " Fb. " + colour + " Gr. " + size + " x " + quantsum;
-        String lengthcode;
-        switch (lgd) {
-            case "0":
-                lengthcode = "";
-                break;
-            case "1":
-                lengthcode = "K";
-                break;
-            case "2":
-                lengthcode = "L";
-                break;
-            default:
-                lengthcode = "FEHLER";
-                break;
-        }
-        return day + "." + month + "." + year + " S." + season + " " + style + " " + quality + " Fb. " + colour + " Gr. " + size + lengthcode + " x " + quantity + zweitewahlchecker();
+
+        return output;
     }
 }

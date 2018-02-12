@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:padding="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="de.hotmann.edgar.wareneingang.MainstartActivity"
+    tools:context="de.hotmann.edgar.wareneingang2.MainstartActivity"
     tools:showIn="@layout/app_bar_mainstart"
     android:background="@color/ListviewColour">
 

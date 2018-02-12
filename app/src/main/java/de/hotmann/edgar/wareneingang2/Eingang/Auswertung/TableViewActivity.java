@@ -1,11 +1,10 @@
-package de.hotmann.edgar.wareneingang.Eingang.Auswertung;
+package de.hotmann.edgar.wareneingang2.Eingang.Auswertung;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -33,9 +32,9 @@ import java.util.List;
 
 
 import au.com.bytecode.opencsv.CSVWriter;
-import de.hotmann.edgar.wareneingang.Eingang.EingangDataSource;
-import de.hotmann.edgar.wareneingang.Eingang.WareneingangPaletten;
-import de.hotmann.edgar.wareneingang.R;
+import de.hotmann.edgar.wareneingang2.Eingang.EingangDataSource;
+import de.hotmann.edgar.wareneingang2.Eingang.WareneingangPaletten;
+import de.hotmann.edgar.wareneingang2.R;
 
 
 public class TableViewActivity extends AppCompatActivity {

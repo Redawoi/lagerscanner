@@ -1,4 +1,4 @@
-package de.hotmann.edgar.wareneingang;
+package de.hotmann.edgar.wareneingang2;
 
 import org.junit.Test;
 
