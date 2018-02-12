@@ -8,6 +8,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.List;
+
 public class BarcodeDataSource {
 
     private static final String LOG_TAG = BarcodeDataSource.class.getSimpleName();
@@ -41,6 +45,11 @@ public class BarcodeDataSource {
 
     private String[] maxid = {
             BarcodeDbHelper.COLUMN_MAXID,
+
+    };
+
+    private String[] countrow = {
+            BarcodeDbHelper.COLUMN_COUNTROW,
 
     };
 
@@ -109,21 +118,48 @@ public class BarcodeDataSource {
 
 
     }
+
     /*
     public void doOptimal() {
         database.beginTransaction();
         try {
             SQLiteStatement insert =
+                    database.compileStatement("insert into " + )
 
         } finally {
             database.endTransaction();
         }
 
     }
-
     */
-    public void transferiereEineLinie(int id) {
+
+    public ArrayList<Barcode> getAllBarcodesForSubTable(int subtable) {
+        ArrayList<Barcode> barcodeList = new ArrayList<>();
         open();
+
+        Cursor cursor = database.query(BarcodeDbHelper.WARENEINGANG_TABLENAME, allcolumns, "substr(eanno, -1) = '" + subtable +"'", null, null ,null, null);
+        cursor.moveToFirst();
+        Barcode barcode;
+        while (!cursor.isAfterLast()) {
+            barcode = cursorToBarcode(cursor);
+            barcodeList.add(barcode);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        close();
+        return barcodeList;
+    }
+
+    public void transferiereEineLinie(int id) {
+        Log.d(LOG_TAG, "-Start transferiere " + id);
+        int a = getrowcount(id);
+        Log.d(LOG_TAG, "-Ergebnis " + a);
+
+
+        //getAllBarcodesForSubTable(id);
+
+
+        /*open();
         String tablealt = "codelist";
         Cursor cursor2 = database.query(tablealt, allcolumns, BarcodeDbHelper.COLUMN_ID + "=" + id, null, null, null, null, null);
         cursor2.moveToNext();
@@ -147,6 +183,7 @@ public class BarcodeDataSource {
         Barcode barcode = cursorToBarcode(cursor);
         cursor.close();
         close();
+        */
     }
 
 
@@ -155,6 +192,22 @@ public class BarcodeDataSource {
         int id= cursor.getInt(idIndex);
         BarcodeMaxId maxcode = new BarcodeMaxId(id);
         return maxcode;
+    }
+
+    private BarcodeCountRow cursorToBarcodeCountRow(Cursor cursor){
+        int idIndex = cursor.getColumnIndex(BarcodeDbHelper.COLUMN_COUNTROW);
+        int id= cursor.getInt(idIndex);
+        BarcodeCountRow count = new BarcodeCountRow(id);
+        return count;
+    }
+
+    public int getrowcount(int subtable) {
+        Cursor cursor = database.query("codelist", countrow,"substr(eanno, -1) = '" + subtable + "'",  null, null, null, null, null);
+        cursor.moveToFirst();
+        BarcodeCountRow rows = cursorToBarcodeCountRow(cursor);
+        int ergebnis = rows.getRowCount();
+        cursor.close();
+        return ergebnis;
     }
 
     public int getmaxid() {

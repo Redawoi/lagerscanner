@@ -31,6 +31,7 @@ public class BarcodeDbHelper extends SQLiteOpenHelper{
     public static final String COLUMN_ITEMNAME = "itemname";
     public static final String COLUMN_PRODGROUP = "productgroup";
     public static final String COLUMN_MAXID = "MAX(_id)";
+    public static final String COLUMN_COUNTROW = "Count(*)";
 
     public static final String SQL_CREATE =
             "CREATE TABLE " + WARENEINGANG_TABLENAME +

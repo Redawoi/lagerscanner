@@ -337,6 +337,7 @@ public class WareneingangPaletten extends AppCompatActivity {
     public String getAktuellePalette() {
         return palettentextfeld.getText().toString();
     }
+
     public List<Eingangwosum> EinträgeEinerPalette(String palette){
         return dataSource.getAllEingaengewoSum(palette);
     }

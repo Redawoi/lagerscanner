@@ -12,8 +12,6 @@ public class BarcodeMaxId {
         this.maximum = maximum;
     }
 
-    public int getMaximum() { return maximum; }
-
     @Override
     public String toString() {
         String output = Integer.toString(maximum);

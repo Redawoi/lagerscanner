@@ -1,6 +1,7 @@
 package de.hotmann.edgar.wareneingang2;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,6 +18,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import de.hotmann.edgar.wareneingang2.Barcode.BarcodeDataSource;
 import de.hotmann.edgar.wareneingang2.Eingang.WareneingangPaletten;
 import de.hotmann.edgar.wareneingang2.Lagerorte.LocationsActivity;
@@ -29,11 +32,14 @@ public class MainstartActivity extends AppCompatActivity
     private TextView textviewprozent;
     private ProgressBar progressBar;
     private int progressStatus = 0;
-    private int z = 0;
+    private int z;
     private Handler handler = new Handler();
+    long startzeit;
 
 
     public void doUpdate () {
+
+
         Button optimieren = (Button) findViewById(R.id.dboptimierung);
         progressBar = (ProgressBar) findViewById(R.id.determinateBar);
         assert optimieren != null;
@@ -43,32 +49,33 @@ public class MainstartActivity extends AppCompatActivity
         Log.d(LOG_TAG, "Entrance");
         dataSource = new BarcodeDataSource(this);
         dataSource.open();
-        progressBar.setMax(dataSource.getmaxid());
-        z = dataSource.getmaxid();
+        //z = dataSource.getmaxid();
+        z=9;
+        progressBar.setMax(z);
         dataSource.CreateSubtables();
         new Thread(new Runnable() {
             @SuppressLint("SetTextI18n")
             public void run() {
-                while (progressStatus < z) {
+                while (progressStatus <= z) {
                     // Update the progress bar and display the
                     //current value in the text view
-                    progressStatus++;
                     dataSource.transferiereEineLinie(progressStatus);
                     handler.post(new Runnable() {
                         public void run() {
-
+                            int zahl = z+1;
                             progressBar.setProgress(progressStatus);
-                            textviewprozent.setText(progressStatus+"/"+z);
+                            textviewprozent.setText(progressStatus+" / "+zahl);
                         }
-                    });
+                    }
+
+                    );
                     try {
                         // Sleep for 200 milliseconds.
                         Thread.sleep(0);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
-                    }
+                    }progressStatus++;
                 }
-                textviewprozent.setText("JETZT DAS HIER");
             }
         }).start();
     }
@@ -104,6 +111,7 @@ public class MainstartActivity extends AppCompatActivity
         optimieren.setOnClickListener(new View.OnClickListener(){
             @SuppressLint("SetTextI18n")
             public void onClick(View v) {
+
                 doUpdate();
                 textview3.setText("Fertig");
             }
