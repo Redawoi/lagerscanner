@@ -53,10 +53,6 @@ public class Barcode {
 
     String getLgd() {return lgd;}
 
-    public void setLgd(String lgd) {
-        this.lgd = lgd;
-    }
-
     String getColour() {return colour;}
 
     public void setColour(String colour) {
@@ -71,21 +67,9 @@ public class Barcode {
 
     String getEanno() {return eanno; }
 
-    public void setEanno(String eanno) {
-        this.eanno = eanno;
-    }
-
     String getItemname() {return itemname;}
 
-    public void setItemname(String itemname) {
-        this.itemname = itemname;
-    }
-
     String getProductgroup() { return productgroup; }
-
-    public void setProductgroup(String productgroup) {
-        this.productgroup = productgroup;
-    }
 
     long getId() {return id;}
 
@@ -96,14 +80,19 @@ public class Barcode {
     @Override
     public String toString() {
         String lengthcode;
-        if(lgd=="0") {
-            lengthcode = null;
-        }else if(lgd == "1"){
-            lengthcode="K";
-        }else if(lgd=="2"){
-            lengthcode="L";
-        }else {
-            lengthcode="FEHLER";
+        switch (lgd) {
+            case "0":
+                lengthcode = null;
+                break;
+            case "1":
+                lengthcode = "K";
+                break;
+            case "2":
+                lengthcode = "L";
+                break;
+            default:
+                lengthcode = "FEHLER";
+                break;
         }
             return season + " " + style + "-" + quality + " Fb. " + colour + " Gr. " + size + lengthcode + " : " + eanno;
 

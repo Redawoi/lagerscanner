@@ -1,9 +1,5 @@
 package de.hotmann.edgar.wareneingang2.Barcode;
 
-/**
- * Created by edgar on 25.05.2016.
- */
-
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -15,10 +11,10 @@ public class BarcodeDbHelper extends SQLiteOpenHelper{
 
     private static  final String LOG_TAG = BarcodeDbHelper.class.getSimpleName();
 
-    public static final String DB_NAME = Environment.getExternalStorageDirectory() + "/Wareneingang/codelist.db";
-    public static final int DB_VERSION = 1;
+    private static final String DB_NAME = Environment.getExternalStorageDirectory() + "/Wareneingang/codelist.db";
+    private static final int DB_VERSION = 1;
 
-    public static final String WARENEINGANG_TABLENAME = "codelist";
+    static final String WARENEINGANG_TABLENAME = "codelist";
 
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_SEASON = "season";
@@ -28,12 +24,10 @@ public class BarcodeDbHelper extends SQLiteOpenHelper{
     public static final String COLUMN_COLOUR = "colour";
     public static final String COLUMN_SIZE = "size";
     public static final String COLUMN_EANNO = "eanno";
-    public static final String COLUMN_ITEMNAME = "itemname";
-    public static final String COLUMN_PRODGROUP = "productgroup";
-    public static final String COLUMN_MAXID = "MAX(_id)";
-    public static final String COLUMN_COUNTROW = "Count(*)";
+    static final String COLUMN_ITEMNAME = "itemname";
+    static final String COLUMN_PRODGROUP = "productgroup";
 
-    public static final String SQL_CREATE =
+    private static final String SQL_CREATE =
             "CREATE TABLE " + WARENEINGANG_TABLENAME +
                     "(" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     COLUMN_SEASON + " TEXT NOT NULL, " +
@@ -46,7 +40,7 @@ public class BarcodeDbHelper extends SQLiteOpenHelper{
                     COLUMN_ITEMNAME + " TEXT NOT NULL, " +
                     COLUMN_PRODGROUP + "TEXT";
 
-    public BarcodeDbHelper(Context context) {
+    BarcodeDbHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
         Log.d(LOG_TAG, "DbHelper hat die Datenbank: " +getDatabaseName() + " erzeugt.");
     }

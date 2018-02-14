@@ -34,9 +34,9 @@ public class MainstartActivity extends AppCompatActivity
     private int progressStatus = 0;
     private int z;
     private Handler handler = new Handler();
-    long startzeit;
 
 
+    @SuppressLint("SetTextI18n")
     public void doUpdate () {
 
 
@@ -53,13 +53,26 @@ public class MainstartActivity extends AppCompatActivity
         z=9;
         progressBar.setMax(z);
         dataSource.CreateSubtables();
+        long starttime = System.currentTimeMillis();
+
+            dataSource.optimiereDB();
+        long dauer = System.currentTimeMillis()-starttime;
+        Context context = getApplicationContext();
+        CharSequence text = "Abfrage wurde beendet nach " + dauer + " ms\n";
+        int duration = Toast.LENGTH_LONG;
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
+        final TextView textview3 = (TextView) findViewById(R.id.textView3);
+        assert textview3 != null;
+        textview3.setText("Dauer: " + dauer/1000 + "," + dauer%1000 + " Sekunden");
+        /*
         new Thread(new Runnable() {
             @SuppressLint("SetTextI18n")
             public void run() {
                 while (progressStatus <= z) {
                     // Update the progress bar and display the
                     //current value in the text view
-                    dataSource.transferiereEineLinie(progressStatus);
+                    dataSource.optimiereDB(progressStatus);
                     handler.post(new Runnable() {
                         public void run() {
                             int zahl = z+1;
@@ -78,6 +91,8 @@ public class MainstartActivity extends AppCompatActivity
                 }
             }
         }).start();
+        */
+
     }
 
 
@@ -113,7 +128,7 @@ public class MainstartActivity extends AppCompatActivity
             public void onClick(View v) {
 
                 doUpdate();
-                textview3.setText("Fertig");
+                //textview3.setText("Fertig");
             }
         });
 
