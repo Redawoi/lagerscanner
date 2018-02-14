@@ -89,7 +89,8 @@ public class BarcodeDataSource {
                     cursor.moveToNext();
                 }
                 SQLiteStatement insert =
-                        database.compileStatement("insert into " + BarcodeDbHelper.WARENEINGANG_TABLENAME + subtable
+                        database.compileStatement("insert into "
+                                + BarcodeDbHelper.WARENEINGANG_TABLENAME + subtable
                                 + "(" + BarcodeDbHelper.COLUMN_ID
                                 + "," + BarcodeDbHelper.COLUMN_SEASON
                                 + "," + BarcodeDbHelper.COLUMN_STYLE
@@ -121,6 +122,7 @@ public class BarcodeDataSource {
                 }
                 subtable++;
             }
+            database.execSQL("DROP TABLE IF EXISTS codelist");
             database.setTransactionSuccessful();
         } finally {
             database.endTransaction();

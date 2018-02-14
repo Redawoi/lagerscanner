@@ -24,8 +24,8 @@ public class BarcodeDbHelper extends SQLiteOpenHelper{
     public static final String COLUMN_COLOUR = "colour";
     public static final String COLUMN_SIZE = "size";
     public static final String COLUMN_EANNO = "eanno";
-    static final String COLUMN_ITEMNAME = "itemname";
-    static final String COLUMN_PRODGROUP = "productgroup";
+    public static final String COLUMN_ITEMNAME = "itemname";
+    public static final String COLUMN_PRODGROUP = "productgroup";
 
     private static final String SQL_CREATE =
             "CREATE TABLE " + WARENEINGANG_TABLENAME +
