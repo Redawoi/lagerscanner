@@ -53,24 +53,29 @@ public class BarcodeDataSource {
     }
 
     public String[] getOneBarcode(String eannoparam) {
-        String table = "codelist";
+        String table = "codelist" + eannoparam.substring(eannoparam.length() - 1);
+        String ergebnis1 ="", ergebnis2="", ergebnis3="",ergebnis4="",ergebnis5="",ergebnis6="",ergebnis7="";
         open();
-        if(CheckforFastDB()) table = "codelist" + eannoparam.substring(eannoparam.length() - 1);
-            String[] result;
+
+        database.beginTransaction();
+        if(CheckIsBarcodeInDBorNot(eannoparam)) {
             Cursor cursor = database.query(table, allcolumns, BarcodeDbHelper.COLUMN_EANNO + "=" + eannoparam, null, null, null, null, null);
             cursor.moveToNext();
-        Barcode barcode;
-                    barcode = cursorToBarcode(cursor);
-                    String ergebnis1 = barcode.getSeason();
-                    String ergebnis2 = barcode.getStyle();
-                    String ergebnis3 = barcode.getQuality();
-                    String ergebnis4 = barcode.getColour();
-                    String ergebnis5 = barcode.getSize();
-                    String ergebnis6 = barcode.getLgd();
-                    String ergebnis7 = barcode.getItemname();
-        result= new String[]{ergebnis1, ergebnis2, ergebnis3, ergebnis4, ergebnis5, ergebnis6,ergebnis7};
-                    cursor.close();
-        return  result;
+            Barcode barcode;
+            barcode = cursorToBarcode(cursor);
+            ergebnis1 = barcode.getSeason();
+            ergebnis2 = barcode.getStyle();
+            ergebnis3 = barcode.getQuality();
+            ergebnis4 = barcode.getColour();
+            ergebnis5 = barcode.getSize();
+            ergebnis6 = barcode.getLgd();
+            ergebnis7 = barcode.getItemname();
+            cursor.close();
+        }
+        database.setTransactionSuccessful();
+        database.endTransaction();
+        close();
+        return new String[]{ergebnis1, ergebnis2, ergebnis3, ergebnis4, ergebnis5, ergebnis6,ergebnis7};
     }
 
     public void optimiereDB() {

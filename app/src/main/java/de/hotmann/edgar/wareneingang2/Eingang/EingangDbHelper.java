@@ -39,21 +39,21 @@ public class EingangDbHelper extends SQLiteOpenHelper{
     public static final String COLUMN_QUANTSUM = "SUM(quantity)";
     public static final String COLUMN_KARTSUM = "SUM(counttocartononpallet)";
     public static final String SQL_CREATE =
-            "CREATE TABLE " + WARENEINGANG_TABLENAME +
+            "CREATE TABLE IF NOT EXISTS " + WARENEINGANG_TABLENAME +
                     "(" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    COLUMN_PALETTE + "INTEGER NOT NULL," +
+                    COLUMN_PALETTE + " INTEGER NOT NULL, " +
                     COLUMN_SEASON + " TEXT NOT NULL, " +
                     COLUMN_STYLE + " TEXT NOT NULL, " +
                     COLUMN_QUALITY + " TEXT NOT NULL, " +
                     COLUMN_COLOUR + " TEXT NOT NULL, " +
                     COLUMN_SIZE + " TEXT NOT NULL, " +
-                    COLUMN_LGD + "TEXT NOT NULL" +
+                    COLUMN_LGD + " TEXT NOT NULL, " +
                     COLUMN_QUANTITY + " INTEGER NOT NULL, " +
                     COLUMN_SECONDARYCHOICE + " INTEGER, " +
-                    COLUMN_COUNTTOPALLET + " INTEGER," +
-                    COLUMN_DAY + " INTEGER," +
-                    COLUMN_MONTH + " INTEGER" +
-                    COLUMN_YEAR + " INTEGER" +
+                    COLUMN_COUNTTOPALLET + " INTEGER, " +
+                    COLUMN_DAY + " INTEGER, " +
+                    COLUMN_MONTH + " INTEGER, " +
+                    COLUMN_YEAR + " INTEGER, " +
                     COLUMN_WEEK + " INTEGER);";
 
     public EingangDbHelper(Context context) {

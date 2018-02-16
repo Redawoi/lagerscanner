@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,6 +38,7 @@ import android.widget.AbsListView;
 import android.widget.ToggleButton;
 
 import de.hotmann.edgar.wareneingang2.Barcode.BarcodeDataSource;
+import de.hotmann.edgar.wareneingang2.BuildConfig;
 import de.hotmann.edgar.wareneingang2.MainstartActivity;
 import de.hotmann.edgar.wareneingang2.R;
 import de.hotmann.edgar.wareneingang2.Eingang.Auswertung.TableViewActivity;
@@ -73,7 +75,9 @@ public class WareneingangPaletten extends AppCompatActivity {
         kartonanzahlaktualisieren();
 
 
+        /*
         final EditText palettennummer = (EditText) findViewById(R.id.editText_palette);
+
         assert palettennummer != null;
         palettennummer.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -88,6 +92,7 @@ public class WareneingangPaletten extends AppCompatActivity {
                 return false;
             }
         });
+        */
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
@@ -177,18 +182,18 @@ public class WareneingangPaletten extends AppCompatActivity {
 
         eingangListView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
 
-            int selCouunt= 0;
+            int selCount = 0;
 
             // In dieser Callback-Methode zählen wir die ausgewählten Listeneinträge mit
             // und fordern ein Aktualisieren der Contextual Action Bar mit invalidate() an
             @Override
             public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
                 if (checked) {
-                    selCouunt++;
+                    selCount++;
                 } else {
-                    selCouunt--;
+                    selCount--;
                 }
-                String cabTitle = selCouunt + " " +getString(R.string.cab_checked_string);
+                String cabTitle = selCount + " " +getString(R.string.cab_checked_string);
                 mode.setTitle(cabTitle);
                 mode.invalidate();
             }
@@ -205,7 +210,7 @@ public class WareneingangPaletten extends AppCompatActivity {
             @Override
             public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
                 MenuItem item = menu.findItem(R.id.cab_change);
-                if (selCouunt == 1) {
+                if (selCount == 1) {
                     item.setVisible(true);
                 } else {
                     item.setVisible(false);
@@ -259,7 +264,7 @@ public class WareneingangPaletten extends AppCompatActivity {
             // Wir setzen den Zähler auf 0 zurück
             @Override
             public void onDestroyActionMode(ActionMode mode) {
-                selCouunt = 0;
+                selCount = 0;
 
             }
         });
@@ -267,15 +272,92 @@ public class WareneingangPaletten extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if ((keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)){
-            scanstartzeit = System.currentTimeMillis();
-            IntentIntegrator integrator = new IntentIntegrator(this);
-            integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
-            integrator.setPrompt("Nur 1D Code\n" +
-                    "Fahre über einen Barcode\n" +
-                    "Lautstärke (+)(–) für Taschenlampe an/aus");
-            integrator.setOrientationLocked(true);
-            integrator.initiateScan();
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                scanstartzeit = System.currentTimeMillis();
+                IntentIntegrator integrator = new IntentIntegrator(this);
+                integrator.setDesiredBarcodeFormats(integrator.PRODUCT_CODE_TYPES);
+                integrator.setOrientationLocked(true);
+
+                integrator.setPrompt("Nur 1D Code\n" +
+                        "Fahre über einen Barcode\n" +
+                        "Lautstärke (+)(–) für Taschenlampe an/aus");
+                integrator.setOrientationLocked(true);
+                integrator.initiateScan();
+                break;
+            case KeyEvent.KEYCODE_VOLUME_UP:
+                final EditText editTextPalette = (EditText) findViewById(R.id.editText_palette);
+                final EditText editTextSeason = (EditText) findViewById(R.id.editText_season);
+                final EditText editTextStyle = (EditText) findViewById(R.id.editText_style);
+                final EditText editTextQuality = (EditText) findViewById(R.id.editText_quality);
+                final EditText editTextColour = (EditText) findViewById(R.id.editText_colour);
+                final EditText editTextSize = (EditText) findViewById(R.id.editText_size);
+                final EditText editTextLgd = (EditText) findViewById(R.id.editText_lgd);
+                final EditText editTextQuantity = (EditText) findViewById(R.id.editText_quantity);
+                final ToggleButton secondarychoicechkbox = (ToggleButton) findViewById(R.id.secondarychoicecheckbox);
+                final ToggleButton countornot = (ToggleButton) findViewById(R.id.countcheckbox);
+                assert editTextPalette != null;
+                String paletteString = editTextPalette.getText().toString();
+                assert editTextSeason != null;
+                String season = editTextSeason.getText().toString();
+                assert editTextStyle != null;
+                String style = editTextStyle.getText().toString();
+                assert editTextQuality != null;
+                String quality = editTextQuality.getText().toString();
+                assert editTextColour != null;
+                String colour = editTextColour.getText().toString();
+                assert editTextSize != null;
+                String size = editTextSize.getText().toString();
+                assert editTextLgd != null;
+                String lgd = editTextLgd.getText().toString();
+                assert editTextQuantity != null;
+                String quantityString = editTextQuantity.getText().toString();
+                assert secondarychoicechkbox != null;
+                String secondarchoicestring = String.valueOf(secondarychoicechkbox.isChecked());
+                assert countornot != null;
+                String countwithString = String.valueOf(countornot.isChecked());
+
+                if (isEmpty(paletteString)) {
+                    editTextPalette.setError(getString(R.string.editText_errorMessage));
+                }else if (isEmpty(season)) {
+                    editTextSeason.setError(getString(R.string.editText_errorMessage));
+                }else if (isEmpty(style)) {
+                    editTextStyle.setError(getString(R.string.editText_errorMessage));
+                }else if (isEmpty(quality)) {
+                    editTextQuality.setError(getString(R.string.editText_errorMessage));
+                }else if (isEmpty(colour)) {
+                    editTextColour.setError(getString(R.string.editText_errorMessage));
+                }else if (isEmpty(size)) {
+                    editTextSize.setError(getString(R.string.editText_errorMessage));
+                }else if (isEmpty(lgd)) {
+                    editTextLgd.setError(getString(R.string.editText_errorMessage));
+                }else if (isEmpty(quantityString)) {
+                    editTextQuantity.setError(getString(R.string.editText_errorMessage));
+                }else {
+                    int palette = Integer.parseInt(paletteString);
+                    int quantity = Integer.parseInt(quantityString);
+                    boolean secondarchoice = Boolean.parseBoolean(secondarchoicestring);
+                    boolean countwith = Boolean.parseBoolean(countwithString);
+                    secondarychoicechkbox.setChecked(false);
+                    secondarychoicechkbox.setSelected(false);
+
+                    Calendar jetzt = Calendar.getInstance();
+                    int day = jetzt.get(Calendar.DAY_OF_MONTH);
+                    int month  = jetzt.get(Calendar.MONTH)+1;
+                    int year = jetzt.get(Calendar.YEAR);
+                    int week= jetzt.get(Calendar.WEEK_OF_YEAR);
+                    dataSource.createEingang(palette, season, style, quality, colour, size,lgd, secondarchoice, countwith, quantity,day,month,year,week);
+
+                    InputMethodManager inputMethodManager;
+                    inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                    if (getCurrentFocus() != null) {
+                        assert inputMethodManager != null;
+                        inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                    }
+                    palettennummeraktualisieren();
+                    kartonanzahlaktualisieren();
+                }
+
         }
         return true;
     }
@@ -325,6 +407,7 @@ public class WareneingangPaletten extends AppCompatActivity {
         integrator.setOrientationLocked(true);
         integrator.initiateScan();
     }
+
     public void clearNow(View view) {
         editTextSeason.setText("");
         editTextStyle.setText("");
@@ -544,53 +627,64 @@ public class WareneingangPaletten extends AppCompatActivity {
         IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         long scandauer = System.currentTimeMillis()-scanstartzeit;
         long lesenstart = System.currentTimeMillis();
+        final int[] z = {0};
+        final Handler handler = new Handler();
         if (scanningResult.getContents() != null) {
             // Ergebnis erhalten
-            String scanContent = scanningResult.getContents();
-            dataSourcebarcode.open();
-            if(dataSourcebarcode.CheckIsBarcodeInDBorNot(scanContent)){
-                // Ergebnis ist in Datenbank
-                // Ausgabe des Ergebnisses auf TextViews
-                String[] Params = dataSourcebarcode.getOneBarcode(scanContent);
-                editTextSeason.setText(Params[0]);
-                editTextStyle.setText(Params[1]);
-                editTextQuality.setText(Params[2]);
-                editTextColour.setText(Params[3]);
-                editTextSize.setText(Params[4]);
-                editTextLgd.setText(Params[5]);
-                editTextQuantity.requestFocus();
-                if(editTextQuantity.requestFocus()) {
-                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+            final String scanContent = scanningResult.getContents();
+
+            new Thread(new Runnable() {
+                @SuppressLint("SetTextI18n")
+                public void run() {
+                    while (z[0] <1) {
+                        handler.post(new Runnable() {
+                                         public void run() {
+                                             dataSourcebarcode.open();
+                                             String[] Params = dataSourcebarcode.getOneBarcode(scanContent);
+                                             editTextSeason.setText(Params[0]);
+                                             editTextStyle.setText(Params[1]);
+                                             editTextQuality.setText(Params[2]);
+                                             editTextColour.setText(Params[3]);
+                                             editTextSize.setText(Params[4]);
+                                             editTextLgd.setText(Params[5]);
+                                             editTextQuantity.requestFocus();
+                                             if(editTextQuantity.requestFocus()) {
+                                                 getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                                             }
+                                         }
+                                     }
+
+                        );
+                        try {
+                            // Sleep for 200 milliseconds.
+                            Thread.sleep(0);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        z[0]++;
+                    }
                 }
-            }else{
-                // Ergebnis nicht in unserer Datenbank
-                // Fehlermeldung
-                /* String message1 = "-!-!-!-Barcode nicht auffindbar-!-!-!-\n\n" +
-                        "1. Versuchen Sie keine betriebsfremden Barcodes zu scannen. (Virengefahr).\n\n" +
-                        "2. Zittern Sie mal nicht so blöd rum\n\n" +
-                        "3. Wenn Sie unschuldig sind, dann tut das uns leid.\n\n" +
-                        "4. Trotzdem sollten Sie nicht denken, dass wir Ihnen Leid zufügen wollen.\nSchauen Sie sich doch einfach im Spiegel an.\n\n" +
-                        "5. Lesen Sie die AGBs vor Nutzung dieser App sorgfältig durch\n\n" +
-                        "6. Je öfter Sie mich anklicken, desto länger bleibe ich hier!"; */
-                String message2= "CODE nicht in Datenbank "+ scanContent;
-                    final Toast toast = Toast.makeText(getApplicationContext(), message2 , Toast.LENGTH_LONG);
-                    toast.show();
-            }
+            }).start();
             dataSourcebarcode.close();
         } else {
-            // Kein Ergebnis erhalten
-            Toast toast = Toast.makeText(getApplicationContext(), "Konnte keine Daten lesen", Toast.LENGTH_SHORT);
+            if (BuildConfig.DEBUG){
+                //Kein Ergebnis erhalten
+                Toast toast = Toast.makeText(getApplicationContext(), "Konnte keine Daten lesen", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        }
+        if (BuildConfig.DEBUG) {
+            long zeit = System.currentTimeMillis()-lesenstart;
+            long gesamt = System.currentTimeMillis()-scanstartzeit;
+            Context context = getApplicationContext();
+            CharSequence text = "Abfrage wurde beendet nach " + zeit + " ms\n" +
+                    "Scannen dauerte: "+ scandauer +" ms\n" +
+                    "Gesamtlaufzeit: " + gesamt + " ms";
+            int duration = Toast.LENGTH_LONG;
+            Toast toast = Toast.makeText(context, text, duration);
             toast.show();
         }
-        long zeit = System.currentTimeMillis()-lesenstart;
-        long gesamt = System.currentTimeMillis()-scanstartzeit;
-        Context context = getApplicationContext();
-        CharSequence text = "Abfrage wurde beendet nach " + zeit + " ms\n" +
-                "Scannen dauerte: "+ scandauer +" ms\n" +
-                "Gesamtlaufzeit: " + gesamt + " ms";
-        int duration = Toast.LENGTH_LONG;
-        Toast toast = Toast.makeText(context, text, duration);
-        toast.show();
+
     }
 
     View.OnClickListener palettemehr = new View.OnClickListener() {

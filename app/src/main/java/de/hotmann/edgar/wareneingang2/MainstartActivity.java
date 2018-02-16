@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,8 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.zxing.integration.android.IntentIntegrator;
 
 import de.hotmann.edgar.wareneingang2.Barcode.BarcodeDataSource;
 import de.hotmann.edgar.wareneingang2.Eingang.WareneingangPaletten;
@@ -29,42 +32,34 @@ public class MainstartActivity extends AppCompatActivity
 
     private BarcodeDataSource dataSource;
     private static final String LOG_TAG = MainstartActivity.class.getSimpleName();
-    private TextView textviewprozent;
-    private ProgressBar progressBar;
-    private int progressStatus = 0;
-    private int z;
-    private Handler handler = new Handler();
-
-
     @SuppressLint("SetTextI18n")
     public void doUpdate () {
 
-
         Button optimieren = (Button) findViewById(R.id.dboptimierung);
-        progressBar = (ProgressBar) findViewById(R.id.determinateBar);
         assert optimieren != null;
         optimieren.setVisibility(View.INVISIBLE);
-        textviewprozent = (TextView) findViewById(R.id.textView3);
-        progressBar.setVisibility(View.VISIBLE);
+        long starttime = 0;
         Log.d(LOG_TAG, "Entrance");
         dataSource = new BarcodeDataSource(this);
         dataSource.open();
-        //z = dataSource.getmaxid();
-        z=9;
-        progressBar.setMax(z);
         dataSource.CreateSubtables();
-        long starttime = System.currentTimeMillis();
+        if (BuildConfig.DEBUG) {
+            starttime = System.currentTimeMillis();
+        }
+        dataSource.optimiereDB();
+        if(BuildConfig.DEBUG) {
+            long dauer = System.currentTimeMillis()-starttime;
+            Context context = getApplicationContext();
+            CharSequence text = "Abfrage wurde beendet nach " + dauer + " ms\n";
+            int duration = Toast.LENGTH_LONG;
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+            final TextView textview3 = (TextView) findViewById(R.id.textView3);
+            assert textview3 != null;
+            textview3.setText("Dauer: " + dauer/1000 + "," + dauer%1000 + " Sekunden");
+        }
 
-            dataSource.optimiereDB();
-        long dauer = System.currentTimeMillis()-starttime;
-        Context context = getApplicationContext();
-        CharSequence text = "Abfrage wurde beendet nach " + dauer + " ms\n";
-        int duration = Toast.LENGTH_LONG;
-        Toast toast = Toast.makeText(context, text, duration);
-        toast.show();
-        final TextView textview3 = (TextView) findViewById(R.id.textView3);
-        assert textview3 != null;
-        textview3.setText("Dauer: " + dauer/1000 + "," + dauer%1000 + " Sekunden");
+
         /*
         new Thread(new Runnable() {
             @SuppressLint("SetTextI18n")
@@ -93,6 +88,22 @@ public class MainstartActivity extends AppCompatActivity
         }).start();
         */
 
+    }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                Intent palettenintent = new Intent(this, WareneingangPaletten.class);
+                this.startActivity(palettenintent);
+                break;
+            case KeyEvent.KEYCODE_VOLUME_UP:
+                Intent locationintent = new Intent(this, LocationsActivity.class);
+                this.startActivity(locationintent);
+                break;
+        }
+        return true;
     }
 
 

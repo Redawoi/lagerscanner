@@ -28,7 +28,7 @@ public class BarcodeDbHelper extends SQLiteOpenHelper{
     public static final String COLUMN_PRODGROUP = "productgroup";
 
     private static final String SQL_CREATE =
-            "CREATE TABLE " + WARENEINGANG_TABLENAME +
+            "CREATE TABLE IF NOT EXISTS " + WARENEINGANG_TABLENAME +
                     "(" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     COLUMN_SEASON + " TEXT NOT NULL, " +
                     COLUMN_STYLE + " TEXT NOT NULL, " +
