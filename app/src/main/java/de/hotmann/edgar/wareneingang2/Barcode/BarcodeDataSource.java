@@ -53,10 +53,11 @@ public class BarcodeDataSource {
     }
 
     public String[] getOneBarcode(String eannoparam) {
-        String table = "codelist" + eannoparam.substring(eannoparam.length() - 1);
-        String ergebnis1 ="", ergebnis2="", ergebnis3="",ergebnis4="",ergebnis5="",ergebnis6="",ergebnis7="";
+        String table = "codelist", ergebnis1 ="", ergebnis2="", ergebnis3="",ergebnis4="",ergebnis5="",ergebnis6="",ergebnis7="";
+        if(CheckforFastDB()) {
+            table = "codelist" + eannoparam.substring(eannoparam.length() - 1);
+        }
         open();
-
         database.beginTransaction();
         if(CheckIsBarcodeInDBorNot(eannoparam)) {
             Cursor cursor = database.query(table, allcolumns, BarcodeDbHelper.COLUMN_EANNO + "=" + eannoparam, null, null, null, null, null);
