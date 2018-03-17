@@ -74,9 +74,7 @@ public class WareneingangPaletten extends AppCompatActivity {
         palettennummeraktualisieren();
         kartonanzahlaktualisieren();
 
-
-        /*
-        final EditText palettennummer = (EditText) findViewById(R.id.editText_palette);
+        final EditText palettennummer = findViewById(R.id.editText_palette);
 
         assert palettennummer != null;
         palettennummer.setOnKeyListener(new View.OnKeyListener() {
@@ -92,7 +90,6 @@ public class WareneingangPaletten extends AppCompatActivity {
                 return false;
             }
         });
-        */
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
