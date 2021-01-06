@@ -1,47 +1,55 @@
 package de.hotmann.edgar.wareneingang2.Eingang;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.RemoteException;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.SparseBooleanArray;
+import android.view.ActionMode;
 import android.view.KeyEvent;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-
-import java.util.Calendar;
-import java.util.List;
-import android.widget.EditText;
-import android.widget.Button;
+import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.content.DialogInterface;
-import android.support.v7.app.AlertDialog;
-import android.view.LayoutInflater;
+import android.widget.AbsListView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
+
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-import android.util.SparseBooleanArray;
-import android.view.ActionMode;
-import android.widget.AbsListView;
-import android.widget.ToggleButton;
+
+import java.util.Calendar;
+import java.util.List;
 
 import de.hotmann.edgar.wareneingang2.Barcode.BarcodeDataSource;
 import de.hotmann.edgar.wareneingang2.BuildConfig;
+import de.hotmann.edgar.wareneingang2.Eingang.Auswertung.TableViewActivity;
 import de.hotmann.edgar.wareneingang2.MainstartActivity;
 import de.hotmann.edgar.wareneingang2.R;
-import de.hotmann.edgar.wareneingang2.Eingang.Auswertung.TableViewActivity;
+import com.cipherlab.barcode.*;
+import com.cipherlab.barcodebase.*;
+import com.cipherlab.barcode.decoder.*;
+import com.cipherlab.barcode.decoderparams.*;
 
 import static android.text.TextUtils.isEmpty;
 
@@ -56,6 +64,11 @@ public class WareneingangPaletten extends AppCompatActivity {
     public ListView eingangListView;
     public long scanstartzeit;
     Button nextpalette, prevpalette;
+    private ReaderManager mReaderManager;
+    private ReaderCallback mReaderCallback = null;
+    private Button button;
+    private IntentFilter onlyHWIntentFilter;
+
 
 
 
@@ -63,6 +76,17 @@ public class WareneingangPaletten extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
+        // C1 Reader
+        button = (Button)findViewById(R.id.scan_button);
+        mReaderManager = ReaderManager.InitInstance(this);
+        //Toast.makeText(this, "Test Init1", Toast.LENGTH_SHORT).show();
+        onlyHWIntentFilter = new IntentFilter();
+        onlyHWIntentFilter.addAction(GeneralString.Intent_PASS_TO_APP);
+        onlyHWIntentFilter.addAction(GeneralString.Intent_SOFTTRIGGER_DATA);
+        onlyHWIntentFilter.addAction(GeneralString.Intent_READERSERVICE_CONNECTED);
+        registerReceiver(myDataReceiver, onlyHWIntentFilter);
+
+
 
         setContentView(R.layout.activity_main);
         dataSource = new EingangDataSource(this);
@@ -94,6 +118,81 @@ public class WareneingangPaletten extends AppCompatActivity {
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
+    private final BroadcastReceiver myDataReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(intent.getAction().equals(GeneralString.Intent_READERSERVICE_CONNECTED)) {
+                button.setText("Deaktiviert");
+                ReaderOutputConfiguration settings = new ReaderOutputConfiguration();
+                settings.enableKeyboardEmulation = KeyboardEmulationType.None;
+                settings.autoEnterWay = OutputEnterWay.Disable;
+                settings.clearPreviousData = Enable_State.TRUE;
+                mReaderManager.Set_ReaderOutputConfiguration(settings);
+                //Toast.makeText(WareneingangPaletten.this, "Init erfolgreich\nDu kannst jetzt scannen!", Toast.LENGTH_SHORT).show();
+                Log.d(LOG_TAG, "Gruß aus Receiver - Barcode ist noch nicht gescannt");
+            }else {
+
+                String sData = intent.getStringExtra(GeneralString.BcReaderData);
+                Log.d(LOG_TAG, "Gruß aus Receiver - Barcode ist: " + sData);
+                barcodeErhalten(sData);
+                //Toast.makeText(WareneingangPaletten.this, "Es geht los!\n"+ sData +"\nLinie 3", Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
+
+    public void barcodeErhalten(final String Barcodekommt) {
+        final int[] z = {0};
+        final Handler handler = new Handler();
+        Log.d(LOG_TAG, "Barcode ist: " + Barcodekommt);
+        if (Barcodekommt != null) {
+            new Thread(new Runnable() {
+                @SuppressLint("SetTextI18n")
+                public void run() {
+                    while (z[0] <1) {
+                        handler.post(new Runnable() {
+                                         public void run() {
+                                             Log.d(LOG_TAG, "Bin drin: " + Barcodekommt);
+                                             String wert = Barcodekommt.toString();
+                                             dataSourcebarcode.open();
+                                             String[] Params = dataSourcebarcode.getOneBarcode(wert);
+                                             editTextSeason.setText(Params[0]);
+                                             editTextStyle.setText(Params[1]);
+                                             editTextQuality.setText(Params[2]);
+                                             editTextColour.setText(Params[3]);
+                                             editTextSize.setText(Params[4]);
+                                             editTextLgd.setText(Params[5]);
+                                             editTextQuantity.requestFocus();
+                                             if(editTextQuantity.requestFocus()) {
+                                                 getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                                             }
+                                         }
+                                     }
+
+                        );
+                        try {
+                            // Sleep for 200 milliseconds.
+                            Thread.sleep(0);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        z[0]++;
+                    }
+                }
+            }).start();
+            dataSourcebarcode.close();
+        } else {
+            if (BuildConfig.DEBUG){
+                //Kein Ergebnis erhalten
+                Toast toast = Toast.makeText(getApplicationContext(), "Konnte keine Daten lesen", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        }
+
+
+
+
+    }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -267,6 +366,27 @@ public class WareneingangPaletten extends AppCompatActivity {
         });
     }
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+
+        // ***************************************************//
+        // Unregister Broadcast Receiver before closing the APP.
+        // ***************************************************//
+        unregisterReceiver(myDataReceiver);
+
+        // ***************************************************//
+        // Remember to release before leaving.
+        // ***************************************************//
+        if (mReaderManager != null)
+        {
+            mReaderManager.Release();
+        }
+    }
+
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode) {
@@ -283,78 +403,17 @@ public class WareneingangPaletten extends AppCompatActivity {
                 integrator.initiateScan();
                 break;
             case KeyEvent.KEYCODE_VOLUME_UP:
-                final EditText editTextPalette = (EditText) findViewById(R.id.editText_palette);
-                final EditText editTextSeason = (EditText) findViewById(R.id.editText_season);
-                final EditText editTextStyle = (EditText) findViewById(R.id.editText_style);
-                final EditText editTextQuality = (EditText) findViewById(R.id.editText_quality);
-                final EditText editTextColour = (EditText) findViewById(R.id.editText_colour);
-                final EditText editTextSize = (EditText) findViewById(R.id.editText_size);
-                final EditText editTextLgd = (EditText) findViewById(R.id.editText_lgd);
-                final EditText editTextQuantity = (EditText) findViewById(R.id.editText_quantity);
-                final ToggleButton secondarychoicechkbox = (ToggleButton) findViewById(R.id.secondarychoicecheckbox);
-                final ToggleButton countornot = (ToggleButton) findViewById(R.id.countcheckbox);
-                assert editTextPalette != null;
-                String paletteString = editTextPalette.getText().toString();
-                assert editTextSeason != null;
-                String season = editTextSeason.getText().toString();
-                assert editTextStyle != null;
-                String style = editTextStyle.getText().toString();
-                assert editTextQuality != null;
-                String quality = editTextQuality.getText().toString();
-                assert editTextColour != null;
-                String colour = editTextColour.getText().toString();
-                assert editTextSize != null;
-                String size = editTextSize.getText().toString();
-                assert editTextLgd != null;
-                String lgd = editTextLgd.getText().toString();
-                assert editTextQuantity != null;
-                String quantityString = editTextQuantity.getText().toString();
-                assert secondarychoicechkbox != null;
-                String secondarchoicestring = String.valueOf(secondarychoicechkbox.isChecked());
-                assert countornot != null;
-                String countwithString = String.valueOf(countornot.isChecked());
+                scanstartzeit = System.currentTimeMillis();
+                /*mReaderManager = ReaderManager.InitInstance(this);
+                /*boolean bRet = mReaderManager.GetActive();
+                /*if (bRet==false) {
+                    ClResult c1Ret = mReaderManager.SetActive(true);
+                }*/
+                Button button = (Button)findViewById(R.id.scan_button);
+                button.setText("Test");
 
-                if (isEmpty(paletteString)) {
-                    editTextPalette.setError(getString(R.string.editText_errorMessage));
-                }else if (isEmpty(season)) {
-                    editTextSeason.setError(getString(R.string.editText_errorMessage));
-                }else if (isEmpty(style)) {
-                    editTextStyle.setError(getString(R.string.editText_errorMessage));
-                }else if (isEmpty(quality)) {
-                    editTextQuality.setError(getString(R.string.editText_errorMessage));
-                }else if (isEmpty(colour)) {
-                    editTextColour.setError(getString(R.string.editText_errorMessage));
-                }else if (isEmpty(size)) {
-                    editTextSize.setError(getString(R.string.editText_errorMessage));
-                }else if (isEmpty(lgd)) {
-                    editTextLgd.setError(getString(R.string.editText_errorMessage));
-                }else if (isEmpty(quantityString)) {
-                    editTextQuantity.setError(getString(R.string.editText_errorMessage));
-                }else {
-                    int palette = Integer.parseInt(paletteString);
-                    int quantity = Integer.parseInt(quantityString);
-                    boolean secondarchoice = Boolean.parseBoolean(secondarchoicestring);
-                    boolean countwith = Boolean.parseBoolean(countwithString);
-                    secondarychoicechkbox.setChecked(false);
-                    secondarychoicechkbox.setSelected(false);
-
-                    Calendar jetzt = Calendar.getInstance();
-                    int day = jetzt.get(Calendar.DAY_OF_MONTH);
-                    int month  = jetzt.get(Calendar.MONTH)+1;
-                    int year = jetzt.get(Calendar.YEAR);
-                    int week= jetzt.get(Calendar.WEEK_OF_YEAR);
-                    dataSource.createEingang(palette, season, style, quality, colour, size,lgd, secondarchoice, countwith, quantity,day,month,year,week);
-
-                    InputMethodManager inputMethodManager;
-                    inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                    if (getCurrentFocus() != null) {
-                        assert inputMethodManager != null;
-                        inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-                    }
-                    palettennummeraktualisieren();
-                    kartonanzahlaktualisieren();
-                }
-
+                Toast.makeText(this, "Aktivierung für Scanner", Toast.LENGTH_SHORT).show();
+                break;
         }
         return true;
     }
@@ -374,6 +433,8 @@ public class WareneingangPaletten extends AppCompatActivity {
         editTextSize = (EditText) findViewById(R.id.editText_size);
         editTextLgd = (EditText) findViewById(R.id.editText_lgd);
         editTextQuantity = (EditText) findViewById(R.id.editText_quantity);
+        button = (Button) findViewById(R.id.scan_button);
+        button.setOnClickListener(scammer);
 
     }
     public void aktualisierenBeiPalettenWechsel() {
@@ -403,6 +464,11 @@ public class WareneingangPaletten extends AppCompatActivity {
                 "Lautstärke (+)(–) für Taschenlampe an/aus");
         integrator.setOrientationLocked(true);
         integrator.initiateScan();
+    }
+
+    public void scanjetzt(View view) {
+        scanstartzeit = System.currentTimeMillis();
+
     }
 
     public void clearNow(View view) {
@@ -684,11 +750,21 @@ public class WareneingangPaletten extends AppCompatActivity {
 
     }
 
+
+
+
     View.OnClickListener palettemehr = new View.OnClickListener() {
         @SuppressLint("SetTextI18n")
         public void onClick(View v) {
             palettentextfeld.setText(Integer.toString((Integer.parseInt(getAktuellePalette())+1)));
             aktualisierenBeiPalettenWechsel(); }
+    };
+
+    View.OnClickListener scammer = new View.OnClickListener() {
+        @SuppressLint("SetTextI18n")
+        public void onClick(View v) {
+            Toast.makeText(WareneingangPaletten.this, "Aktivierung für Scanner", Toast.LENGTH_SHORT).show();
+            }
     };
 
      View.OnClickListener paletteweniger = new View.OnClickListener() {

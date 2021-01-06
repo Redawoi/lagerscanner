@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/lagerscanner.iml" filepath="$PROJECT_DIR$/lagerscanner.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/lagerscanner.iml" filepath="$PROJECT_DIR$/.idea/lagerscanner.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/lagerscanner.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/lagerscanner.app.iml" />
     </modules>
   </component>
 </project>

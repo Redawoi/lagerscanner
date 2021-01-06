@@ -26,7 +26,6 @@
         android:layout_height="54dp"
         android:layout_centerHorizontal="true"
         android:text="@string/scan"
-        android:onClick="scanNow"
         android:textColor="@color/colorAccent"
         android:background="@color/ListviewColour"
         />

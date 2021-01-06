@@ -60,7 +60,7 @@ public class BarcodeDataSource {
         open();
         database.beginTransaction();
         if(CheckIsBarcodeInDBorNot(eannoparam)) {
-            Cursor cursor = database.query(table, allcolumns, BarcodeDbHelper.COLUMN_EANNO + "=" + eannoparam, null, null, null, null, null);
+            Cursor cursor = database.query(table, allcolumns, BarcodeDbHelper.COLUMN_EANNO + "='" + eannoparam + "'", null, null, null, null, null);
             cursor.moveToNext();
             Barcode barcode;
             barcode = cursorToBarcode(cursor);

@@ -6,16 +6,16 @@ android {
         config {
             keyAlias 'wareneingangkey'
             keyPassword 'aladin92'
-            storeFile file('D:/Android/Keystore/Wareneingang.jks')
+            storeFile file('/home/edgar/Schreibtisch/Android/Keystore/Wareneingang.jks')
             storePassword 'aladin92'
         }
     }
-    compileSdkVersion 27
+    compileSdkVersion 30
     buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "de.hotmann.edgar.wareneingang2"
         minSdkVersion 23
-        targetSdkVersion 27
+        targetSdkVersion 30
         versionCode 16
         versionName "1.0.0.5"
     }
@@ -40,6 +40,7 @@ android {
 }
 
 dependencies {
+    implementation files('libs/BarcodeAPI_V1_1_13.jar')
     // http://mvnrepository.com/artifact/net.sf.opencsv/opencsv
     compile 'net.sf.opencsv:opencsv:2.3'
     compile fileTree(include: ['*.jar'], dir: 'libs')
